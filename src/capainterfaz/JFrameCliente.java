@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package capainterfaz;
+import capanegocio.Articulo;
+import capanegocio.Categoria;
 import java.sql.*;
 
 import capanegocio.Hotel;
@@ -20,13 +22,11 @@ public class JFrameCliente extends javax.swing.JFrame {
     private Hotel hotel;
     private ResultSet rs;
     private DefaultTableModel modeloTabla;
-    private float compra_Total;
+    private double compra_Total;
     private String cliente;
-    private List<String> productos;
-    private List<Integer> cantidades;
-    private List<Integer> cantidadesReal;
-
-    private List<Float> precios;
+    private List<Articulo> articulosagregados;    
+    private List<Articulo> articulos;
+    
     /**
      * Creates new form JFrameCliente
      */
@@ -34,10 +34,7 @@ public class JFrameCliente extends javax.swing.JFrame {
         this.hotel = hotel;
         this.cliente = cliente;
         this.compra_Total = 0;
-        this.productos = new ArrayList<String>();
-        this.cantidades = new ArrayList<Integer>();
-        this.cantidadesReal = new ArrayList<Integer>();
-        this.precios = new ArrayList<Float>();
+        this.articulosagregados = new ArrayList<Articulo>();
         initComponents();
         obtenerDatos();
     }
@@ -52,31 +49,32 @@ public class JFrameCliente extends javax.swing.JFrame {
         jTable1.setModel(modeloTabla); 
         
         DefaultComboBoxModel<String> modeloComboBox = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<String> modeloComboBox1 = new DefaultComboBoxModel<>();
+
         modeloComboBox.addElement(" ");
         try {         
-            rs = hotel.getInventario("ProductoUsuarios");
-            while (rs != null && rs.next()) {
-                modeloComboBox.addElement(rs.getString("nombre") + "  ~  $"+rs.getFloat("precio"));
-            }
+            articulos = hotel.getInventario("ProductoUsuarios",1);
+            for(Articulo articulo: articulos){
+                String producto = articulo.getNombre();
+                int longitud = producto.length();
+                String precio = String.format("%.2f", articulo.getPrecio());
+                producto = String.format("%-"+(20-longitud)+"s",producto);
+                modeloComboBox.addElement(producto + "   ~       $"+precio);
+            }  
+        } catch (Exception e) {
+            System.out.println("No se pudo obtener el inventario: " + e.getMessage());
+        }        
+        modeloComboBox1.addElement(" ");
+        try {         
+            for(Articulo articulo: articulos){
+                modeloComboBox1.addElement(articulo.getNombre());
+            }  
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("No se pudo obtener el inventario: " + e.getMessage());
         }
         jComboBox2.setModel(modeloComboBox);
-        
-        DefaultComboBoxModel<String> modeloComboBox1 = new DefaultComboBoxModel<>();
-        modeloComboBox1.addElement(" ");
-        try {         
-            rs = hotel.getInventario("ProductoUsuarios");
-            while (rs != null && rs.next()) {
-                modeloComboBox1.addElement(rs.getString("nombre"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("No se pudo obtener el inventario: " + e.getMessage());
-        }
         jComboBox5.setModel(modeloComboBox1);
-        hotel.cerrarRecursos();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -688,38 +686,30 @@ public class JFrameCliente extends javax.swing.JFrame {
                     .addGroup(PanelCompraLayout.createSequentialGroup()
                         .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelCompraLayout.createSequentialGroup()
+                                .addGap(4, 4, 4)
                                 .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel20)
                                     .addGroup(PanelCompraLayout.createSequentialGroup()
-                                        .addGap(4, 4, 4)
-                                        .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel20)
+                                        .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(PanelCompraLayout.createSequentialGroup()
-                                                .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(PanelCompraLayout.createSequentialGroup()
-                                                        .addComponent(jLabel14)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(30, 30, 30)
-                                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(PanelCompraLayout.createSequentialGroup()
-                                        .addGap(87, 87, 87)
-                                        .addComponent(btnConfPay, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(8, 8, 8))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCompraLayout.createSequentialGroup()
-                                .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(PanelCompraLayout.createSequentialGroup()
-                                        .addComponent(jLabel11)
-                                        .addGap(102, 102, 102)
-                                        .addComponent(jLabel12))
-                                    .addGroup(PanelCompraLayout.createSequentialGroup()
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(36, 36, 36)))
+                                                .addComponent(jLabel14)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(30, 30, 30)
+                                        .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel12)))))
+                            .addGroup(PanelCompraLayout.createSequentialGroup()
+                                .addGap(87, 87, 87)
+                                .addComponent(btnConfPay, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel11)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelCompraLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(20, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCompraLayout.createSequentialGroup()
@@ -869,60 +859,45 @@ public class JFrameCliente extends javax.swing.JFrame {
         String producto = (String) jComboBox2.getSelectedItem();
         String cantidadStr = (String) jComboBox6.getSelectedItem();
         int cantidad = 0;
-        float precio = 0;
-        float subtotal = 0;
+        double subtotal = 0;
         String productoComparar = "";
-        int cantidadReal = 0;
         try {
             cantidad = Integer.parseInt(cantidadStr);
-            if (cantidad <= 0) {
-                throw new NumberFormatException("La cantidad debe ser mayor a 0");
-            }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa una cantidad válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,"La cantidad debe ser mayor a 0", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try{
-            rs = hotel.getInventario("ProductoUsuarios");
-            while(rs.next()){
-                productoComparar = rs.getString("nombre");
-                int longuitud = productoComparar.length();
-                if(productoComparar.equals(producto.substring(0, longuitud))){
-                    precio = rs.getFloat("precio");
-                    cantidadReal = rs.getInt("cantidad");
-                    productoComparar = producto.substring(0, longuitud);
-
-                    subtotal = cantidad * precio;
-                    if(!producto.equals(" ")){
-                        if(cantidadReal >= cantidad){
-                            productos.add(productoComparar);
-                            cantidades.add(cantidad);
-                            precios.add(precio);
-                            cantidadesReal.add(cantidadReal);
-                            hotel.restarArticulos(cantidadReal, cantidad, productoComparar, "ProductoUsuarios");
+            if(!producto.equals(" ")){
+                for(Articulo articulo: articulos){
+                    int longitud = articulo.getNombre().length();
+                    if(producto.substring(0,longitud).equals(articulo.getNombre())){
+                        if(cantidad <= articulo.getCantidadDisponible()){
+                            articulo.setCantidadDisponible(articulo.getCantidadDisponible() - cantidad);
+                            subtotal = cantidad * articulo.getPrecio();
+                            this.compra_Total += subtotal;
+                            String total = String.format("%.2f", this.compra_Total);
                             modeloTabla.addRow(new Object[]{producto, cantidad, subtotal});
+                            articulosagregados.add(new Articulo(articulo.getNombre(),cantidad ,(float) articulo.getPrecio()));
+                            jLTotal.setText(total);
+                        } 
+                        else{
+                            JOptionPane.showMessageDialog(this, "No existen suficientes productos en stock");
                         }
-
-                    }
-                    else
-                        JOptionPane.showMessageDialog(this, "Ingrese un producto primero" , "Error", JOptionPane.ERROR_MESSAGE);
-
-                    jComboBox2.setSelectedIndex(0);
-                    jComboBox6.setSelectedIndex(0);
-                    this.compra_Total += subtotal;
-                    String total = String.format("%.2f", this.compra_Total);
-                    jLTotal.setText(total);
-                    hotel.cerrarRecursos();
-                    
-                    break;
-                } 
+                    } 
+                }
             }
+            else{
+                JOptionPane.showMessageDialog(this, "Ingrese un producto primero" , "Error", JOptionPane.ERROR_MESSAGE);
+            }
+  
+            jComboBox2.setSelectedIndex(0);
+            jComboBox6.setSelectedIndex(0);
         }
         catch (Exception e){
-            System.out.println("No se pudo recuperar " + e.getMessage());
+            System.out.println("No se pudo recuoerar: "+ e.getMessage());
         }
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
@@ -936,43 +911,41 @@ public class JFrameCliente extends javax.swing.JFrame {
             String buscado = (String) modeloTabla.getValueAt(i-1, 0);
             if(seleccionado.equals(buscado.substring(0,longitud))){
                 try{
-                    rs = hotel.getInventario("ProductoUsuarios"); 
-                    while(rs.next()){
-                        this.compra_Total -= (float) modeloTabla.getValueAt(i-1,2);
-                        int cantidad = (int) modeloTabla.getValueAt(i-1,1);
-                        int cantidadReal = Integer.parseInt(this.rs.getString("cantidad"));
-                        String total = String.format("%.2f", this.compra_Total);
-                        jLTotal.setText(total);
-                        modeloTabla.removeRow(i-1);
-                        hotel.sumarArticulo(cantidadReal, cantidad, seleccionado, "ProductoUsuarios");
-                        JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        jComboBox5.setSelectedIndex(0);
-                        hotel.cerrarRecursos();
-                        return;
+                    this.compra_Total -= (double) modeloTabla.getValueAt(i-1,2);
+                    int cantidad = (int) modeloTabla.getValueAt(i-1,1);
+                    String total = String.format("%.2f", this.compra_Total);
+                    jLTotal.setText(total);
+                    modeloTabla.removeRow(i-1);
+                    jComboBox5.setSelectedIndex(0);
+                    for(Articulo articulo:articulos){
+                        articulo.setCantidadDisponible(cantidad + articulo.getCantidadDisponible());
+                        for(int j = 0; j < articulosagregados.size();j++){
+                            if(articulo.getNombre().equals(articulosagregados.get(j).getNombre())){
+                                articulosagregados.remove(j);
+                                System.out.println("Elimindado de la lista");
+                            }
+                        }
                     }
+                    JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    break;
                 }catch(Exception e){
                     JOptionPane.showMessageDialog(this, "El producto no se encuentra en la lista", "Error", JOptionPane.ERROR_MESSAGE);
+                    System.out.println("Error: "+e.getMessage());
                 }
             }
         }
-        JOptionPane.showMessageDialog(this, "El producto no se encuentra en la lista", "Error", JOptionPane.ERROR_MESSAGE);
-
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnConfPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfPayActionPerformed
-        if(modeloTabla.getRowCount() != 0){
-            GregorianCalendar gc = new GregorianCalendar();
-            int dia = gc.get(gc.DAY_OF_MONTH);
-            int mes = gc.get(gc.MONTH) + 1;
-            int año = gc.get(gc.YEAR);
-            String fecha = String.format("%-2d/%-2d/%-4d",dia,mes,año);
-            hotel.guardarFactura(this.cliente,fecha,this.productos,this.cantidades,this.precios,this.cantidadesReal,this.compra_Total);
-            for(int i = 0; i <= modeloTabla.getRowCount(); i++){
+        if (!this.articulosagregados.isEmpty()) {
+            hotel.guardarFactura(this.cliente, this.articulosagregados, (float) this.compra_Total);
+            for (int i = modeloTabla.getRowCount() - 1; i >= 0; i--) {
                 modeloTabla.removeRow(i);
             }
-        }else{
-        JOptionPane.showMessageDialog(this, "No existe ningun producto en la lista", "Error", JOptionPane.ERROR_MESSAGE);}
-        
+            articulosagregados.clear();
+        } else {
+            JOptionPane.showMessageDialog(this, "No existe ningún producto en la lista", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnConfPayActionPerformed
 
     /**

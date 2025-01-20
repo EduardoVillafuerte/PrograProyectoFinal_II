@@ -31,14 +31,6 @@ public class Hotel {
         articulos = new ArrayList<Articulo>();
         asignacionesConserje = new ArrayList<String>();
         asignacionesRecepcion = new ArrayList<String>();
-        articulos.add(new Articulo("Escoba",Categoria.LIMPIEZA,100,TipoAlerta.NA));
-        articulos.add(new Articulo("Chicles",Categoria.ALIMENTO,7,TipoAlerta.ALTA));
-        articulos.add(new Articulo("Dulces",Categoria.ALIMENTO,18,TipoAlerta.MEDIA));
-        articulos.add(new Articulo("Almohadas",Categoria.ROPA_CAMA,53,TipoAlerta.NA));
-        articulos.add(new Articulo("Trapeador",Categoria.LIMPIEZA,32,TipoAlerta.BAJA));
-        articulos.add(new Articulo("Edredones",Categoria.ROPA_CAMA,12,TipoAlerta.MEDIA));
-        articulos.add(new Articulo("Jabón",Categoria.ACCESORIO_BANIO,100,TipoAlerta.NA));
-        articulos.add(new Articulo("Toallas",Categoria.ACCESORIO_BANIO,10,TipoAlerta.ALTA));
         asignacionesConserje.add("Gestión de residuos y reciclaje");
         asignacionesConserje.add("Limpieza de oficinas del primer piso");
         asignacionesConserje.add("Limpieza de la cafetería y áreas de descanso");
@@ -193,9 +185,9 @@ public class Hotel {
         return null;
     }
 
-    public void agregarArticulo(String nombre, Categoria categoria, int cantidad, TipoAlerta prioridad) {
+    public void agregarArticulo(String nombre, float precio ,Categoria categoria, int cantidad, TipoAlerta prioridad) {
         if(buscarArticulo(nombre) == null){
-            articulos.add(new Articulo(nombre, categoria, cantidad, prioridad));
+            articulos.add(new Articulo(nombre, precio, categoria, cantidad, prioridad));
         }
         else {
             JOptionPane.showMessageDialog(null,"El articulo ya se encuetra registrado");
@@ -281,48 +273,63 @@ public class Hotel {
         int mes = gc.get(GregorianCalendar.MONTH);
         int dia = gc.get(GregorianCalendar.DAY_OF_MONTH);
         double montTotal = reserva.getDiasTotal()* reserva.getHabitacion().getPrecioNoche();
-        cliente.agregarFactura(new Factura((int)(Math.random()*100),cliente,new Fecha(dia,mes,anio),montTotal,metodoPago));
+        //cliente.agregarFactura(new Factura((int)(Math.random()*100),cliente,new Fecha(dia,mes,anio),montTotal,metodoPago));
         return "se registro la reserva";
     }
     
-    public ResultSet getInventario(String tabla){
-        try{
-            ResultSet rs = cn.obetenrDatos(tabla);
-            return rs;
-        }catch(Exception e){
-            System.out.println("error: "+e.getMessage());
-        }
-        return null;
-    }
-   
-    public static void guardarFactura(String nombreCliente, String fecha, List<String> productos, List<Integer> cantidades, List<Float> precios, List<Integer> cantidadesReales, float compraTotal) {
-        int contador = 0;
-        for(int i = 0; i < productos.size(); i++){
-            contador++;
+    public List<Articulo> getInventario(String tabla, int rol){
+        String nombre,tipoPrioridad;
+        int cantidad;
+        float precio;
+        if(rol == 1){
+            try{
+                ResultSet rs = cn.obetenrDatos(tabla);
+                while(rs.next()){
+                    nombre = rs.getString("nombre");
+                    precio = rs.getFloat("precio");
+                    cantidad = rs.getInt("cantidad");
+                    tipoPrioridad = rs.getString("tipoPrioridad"); 
+                    articulos.add(new Articulo(nombre,precio, Categoria.ALIMENTO ,cantidad, tipoAlerta(tipoPrioridad)));
+                }
+                return articulos;
+            }catch(Exception e){
+                System.out.println("error: "+e.getMessage());
+
+            }
+            
         }
         
-        // Crear contenido de la factura
+        return null;
+    }
+    
+    public TipoAlerta tipoAlerta(String alertaString){
+        return switch (alertaString) {
+            case "LimiteAlto" -> TipoAlerta.ALTA;
+            case "LimiteMedio" -> TipoAlerta.MEDIA;
+            case "LimiteBajo" -> TipoAlerta.BAJA;
+            default -> TipoAlerta.NA;
+        };
+    }
+   
+    public static void guardarFactura(String nombreCliente, List<Articulo> articulosAgregados, float compraTotal) {
+        Fecha fecha = new Fecha();
+        
         StringBuilder factura = new StringBuilder();
         factura.append("*****************************************************\n");
         factura.append("         FACTURA            \n");
         factura.append("*****************************************************\n");
         factura.append("Cliente: ").append(nombreCliente).append("\n");
-        factura.append("Fecha: ").append(fecha).append("\n");
+        factura.append("Fecha: ").append(fecha.getHoy()).append("\n");
         factura.append("\n");
         factura.append("Detalle de compra:\n");
         factura.append("-----------------------------------------------------\n");
         factura.append(String.format("%-20s %-10s %-10s %-10s\n", "Producto", "Cantidad", "Precio", "Subtotal"));
         factura.append("-----------------------------------------------------\n");
 
-        for (int i = 0; i < productos.size(); i++) {
-            float subtotal = cantidades.get(i) * precios.get(i);
-            String producto = productos.get(i);
-            int cantidad = cantidades.get(i);
-            float precio = precios.get(i);
-            factura.append(String.format("%-20s %-10d $%-9.2f $%-9.2f\n", producto, cantidad, precio, subtotal));
-            ConexionSQL csn = new  ConexionSQL();
+        for(Articulo articulo: articulosAgregados){
+            double subtotal = articulo.getCantidadDisponible() * articulo.getPrecio();
+            factura.append(String.format("%-20s %-10d $%-9.2f $%-9.2f\n", articulo.getNombre(), articulo.getCantidadDisponible(),articulo.getPrecio(), subtotal));
         }
-        
 
         factura.append("---------------------------------------------\n");
         factura.append(String.format("Total: $%.2f\n", compraTotal));

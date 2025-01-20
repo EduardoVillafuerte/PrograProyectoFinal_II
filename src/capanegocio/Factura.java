@@ -12,7 +12,7 @@ public class Factura {
     private Habitacion habitacion;
     private MetodoPago metodoPago;
 
-    public Factura(int numFactura, Cliente cliente, Fecha fechaEmision, double montoTotal, MetodoPago metodoPago) {
+    public Factura(int numFactura, String cliente, Fecha fechaEmision, double montoTotal, MetodoPago metodoPago) {
         this.numFactura = numFactura;
         this.fechaEmision = fechaEmision;
         this.montoTotal = montoTotal;

@@ -1,9 +1,12 @@
 
 package capanegocio;
 
+import java.util.List;
+
 public class Articulo {
 
     private String nombre;
+    private double precio;
     private Categoria categoria;
     private int cantidadDisponible;
     private TipoAlerta prioridad;
@@ -11,19 +14,34 @@ public class Articulo {
     public static final int LIMITEMEDIO = 20;
     public static final int LIMITEALTO = 35;
 
-    public Articulo(String nombre, Categoria categoria, int cantidadDisponible, TipoAlerta prioridad) {
+    public Articulo(String nombre, double precio, Categoria categoria, int cantidadDisponible, TipoAlerta prioridad) {
         this.nombre = nombre;
+        this.precio = precio;
         this.categoria = categoria;
         this.cantidadDisponible = cantidadDisponible;
         this.prioridad = prioridad;
+    }
+    
+    public Articulo(String nombre, int cantidad, float precio) {
+        this.nombre = nombre;
+        this.cantidadDisponible = cantidad;
+        this.precio = precio;
     }
 
     public String getNombre() {
         return nombre;
     }
-
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    
+    public double getPrecio() {
+        return precio;
+    }
+    
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
     public Categoria getCategoria() {
