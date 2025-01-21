@@ -1,63 +1,25 @@
 package capanegocio;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Factura {
-    private int numFactura;
-    private Fecha fechaEmision;
-    private double montoTotal;
-    private boolean pagada;
-    private String descripcion;
-    private Habitacion habitacion;
-    private MetodoPago metodoPago;
-
-    public Factura(int numFactura, String cliente, Fecha fechaEmision, double montoTotal, MetodoPago metodoPago) {
-        this.numFactura = numFactura;
+    private String numFactura;
+    private String fechaEmision;
+    private String montoTotal;
+    
+    public Factura(String fechaEmision, String factura, String total){
         this.fechaEmision = fechaEmision;
-        this.montoTotal = montoTotal;
-        this.pagada = false;
-        this.metodoPago = metodoPago;
+        this.numFactura = factura;
+        this.montoTotal = total;
     }
 
-    public int getNumFactura() {
+    public String getNumFactura() {
         return numFactura;
     }
 
-    public Fecha getFechaEmision() {
+    public String getFechaEmision() {
         return fechaEmision;
     }
 
-    public double getMontoTotal() {
+    public String getMontoTotal() {
         return montoTotal;
     }
-
-    public boolean isPagada() {
-        return pagada;
-    }
-
-    public void setPagada(boolean pagada) {
-        this.pagada = pagada;
-    }
-
-    public MetodoPago getMetodoPago() {
-        return metodoPago;
-    }
-
-    public void setMetodoPago(MetodoPago metodoPago) {
-        this.metodoPago = metodoPago;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public void pagar(){
-        this.pagada = true;
-    }
-
 }

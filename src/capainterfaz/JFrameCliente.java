@@ -4,12 +4,11 @@
  */
 package capainterfaz;
 import capanegocio.Articulo;
-import capanegocio.Categoria;
+import capanegocio.Factura;
 import java.sql.*;
 
 import capanegocio.Hotel;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -21,11 +20,15 @@ import javax.swing.table.DefaultTableModel;
 public class JFrameCliente extends javax.swing.JFrame {
     private Hotel hotel;
     private ResultSet rs;
-    private DefaultTableModel modeloTabla;
+    private DefaultTableModel modeloTabla; 
+    private DefaultTableModel modelTablaFactura;
     private double compra_Total;
     private String cliente;
     private List<Articulo> articulosagregados;    
     private List<Articulo> articulos;
+    private List<Integer> dias;
+    private String[] meses;
+    private int mesInicio;
     
     /**
      * Creates new form JFrameCliente
@@ -34,7 +37,9 @@ public class JFrameCliente extends javax.swing.JFrame {
         this.hotel = hotel;
         this.cliente = cliente;
         this.compra_Total = 0;
+        meses = new String[12];
         this.articulosagregados = new ArrayList<Articulo>();
+        this.dias = new ArrayList<Integer>();
         initComponents();
         obtenerDatos();
     }
@@ -46,7 +51,34 @@ public class JFrameCliente extends javax.swing.JFrame {
     private void obtenerDatos(){
         modeloTabla = new DefaultTableModel(
         new Object[]{"Nombre", "Cantidad", "Precio"}, 0);
-        jTable1.setModel(modeloTabla); 
+        
+        modelTablaFactura = new DefaultTableModel(
+        new Object[]{"Fecha", "NumFactura", "Total"}, 0);
+        for(Factura facturas : hotel.getFacturas(cliente)){
+            modelTablaFactura.addRow( new Object[] {facturas.getFechaEmision(),facturas.getNumFactura(),facturas.getMontoTotal()});
+        }
+        if(modelTablaFactura.getRowCount()==0){
+            JOptionPane.showMessageDialog(this, "El cliente no tiene facturas", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        jTable2.setModel(modelTablaFactura);  
+        jTable1.setModel(modeloTabla);  
+        meses[0]="Enero";
+        meses[1]= "Febrero";
+        meses[2]= "Marzo";
+        meses[3]= "Abril";
+        meses[4]= "Mayo";
+        meses[5]= "Junio";
+        meses[6]= "Julio";
+        meses[7]= "Agosto";
+        meses[8]= "Septiembre";
+        meses[9]= "Octubre";
+        meses[10]= "Noviembre";
+        meses[11]="Diciembre";
+        DefaultComboBoxModel<String> mesCombo = new DefaultComboBoxModel<>();
+        for (int i = 0; i < 12; i++) {
+            mesCombo.addElement(meses[i]);
+        }
+        jCBoxMes.setModel(mesCombo);
         
         DefaultComboBoxModel<String> modeloComboBox = new DefaultComboBoxModel<>();
         DefaultComboBoxModel<String> modeloComboBox1 = new DefaultComboBoxModel<>();
@@ -195,7 +227,6 @@ public class JFrameCliente extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Elija el Mes");
 
-        jCBoxMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiempre", "Octubre", "Noviembre", "Diciembre" }));
         jCBoxMes.setBorder(null);
         jCBoxMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,10 +244,15 @@ public class JFrameCliente extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Habitación");
 
-        jCBoxDiaEntrada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
+        jCBoxDiaEntrada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
         jCBoxDiaEntrada.setBorder(null);
+        jCBoxDiaEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBoxDiaEntradaActionPerformed(evt);
+            }
+        });
 
-        jCBoxDiaSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
+        jCBoxDiaSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
         jCBoxDiaSalida.setBorder(null);
 
         jCBoxHabitacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Individual", "Doble", "Suite" }));
@@ -264,7 +300,12 @@ public class JFrameCliente extends javax.swing.JFrame {
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel25.setText("Elija el Mes");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febreo", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiempre", "Octubre", "Noviembre", "Diciembre" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelReservaLayout = new javax.swing.GroupLayout(PanelReserva);
         PanelReserva.setLayout(PanelReservaLayout);
@@ -275,14 +316,14 @@ public class JFrameCliente extends javax.swing.JFrame {
                 .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelReservaLayout.createSequentialGroup()
                         .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCBoxMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(72, 72, 72)
+                        .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelReservaLayout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(72, 72, 72)
-                                .addComponent(jLabel4))
-                            .addGroup(PanelReservaLayout.createSequentialGroup()
-                                .addComponent(jCBoxMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(90, 90, 90)
-                                .addComponent(jCBoxDiaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(6, 6, 6)
+                                .addComponent(jCBoxDiaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 369, Short.MAX_VALUE)
                         .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -378,42 +419,24 @@ public class JFrameCliente extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Fecha", "Factura", "Total"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-        }
 
         jButton3.setBackground(new java.awt.Color(0, 102, 102));
         jButton3.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Buscar");
         jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(102, 102, 102));
@@ -836,11 +859,35 @@ public class JFrameCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReservarActionPerformed
 
     private void jCBoxMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBoxMesActionPerformed
-        // TODO add your handling code here:
+        if (jCBoxMes.getSelectedItem() == null) {
+            return; 
+        }
+        String mes = jCBoxMes.getSelectedItem().toString();
+        mesInicio = mesInt(mes);
+
+        dias = hotel.getDias();
+        jCBoxDiaEntrada.removeAllItems();
+        DefaultComboBoxModel<String> diaCombo = new DefaultComboBoxModel<>();
+        for (int i = 1; i <= dias.get(mesInicio); i++) {
+            String iAsString = String.valueOf(i);
+            diaCombo.addElement(iAsString);
+        }
+        
+        DefaultComboBoxModel<String> mesCombo = new DefaultComboBoxModel<>();
+        for (int i = mesInicio; i <= 11; i++) {
+            mesCombo.addElement(meses[i]);
+        }
+        jComboBox1.setModel(mesCombo);
+        jCBoxDiaEntrada.setModel(diaCombo);
+
     }//GEN-LAST:event_jCBoxMesActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        modelTablaFactura.setRowCount(0);
+        for(Factura facturas : hotel.getFacturas(cliente)){
+            modelTablaFactura.addRow( new Object[] {facturas.getFechaEmision(),facturas.getNumFactura(),facturas.getMontoTotal()});
+        }
+        jTable2.setModel(modelTablaFactura); 
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnVerFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerFacturasActionPerformed
@@ -939,15 +986,81 @@ public class JFrameCliente extends javax.swing.JFrame {
     private void btnConfPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfPayActionPerformed
         if (!this.articulosagregados.isEmpty()) {
             hotel.guardarFactura(this.cliente, this.articulosagregados, (float) this.compra_Total);
+            hotel.guardarCambiosInventario(this.articulos,"ProductoUsuarios");
             for (int i = modeloTabla.getRowCount() - 1; i >= 0; i--) {
                 modeloTabla.removeRow(i);
-            }
+            }   
             articulosagregados.clear();
         } else {
             JOptionPane.showMessageDialog(this, "No existe ningún producto en la lista", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnConfPayActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        
+        dias = hotel.getDias();
+        jCBoxDiaSalida.removeAllItems();
+        DefaultComboBoxModel<String> diaCombo = new DefaultComboBoxModel<>();
+        for (int i = 1; i <= dias.get(mesInicio); i++) {   
+            String iAsString = String.valueOf(i);
+            diaCombo.addElement(iAsString);
+        }
+        jCBoxDiaSalida.setModel(diaCombo);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jCBoxDiaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBoxDiaEntradaActionPerformed
+        if (jComboBox1.getSelectedItem() == null || jCBoxDiaEntrada.getSelectedItem() == null) {
+            return;     
+        }
+        String mes = jComboBox1.getSelectedItem().toString();
+        mesInicio = mesInt(mes);
+        dias = hotel.getDias();
+        jCBoxDiaSalida.removeAllItems();
+        int diaSeleccionado = Integer.parseInt(jCBoxDiaEntrada.getSelectedItem().toString());
+        DefaultComboBoxModel<String> diaCombo = new DefaultComboBoxModel<>();
+
+        for (int i = diaSeleccionado; i <= dias.get(mesInicio); i++) {
+            diaCombo.addElement(String.valueOf(i));
+        }
+        jCBoxDiaSalida.setModel(diaCombo);
+    }//GEN-LAST:event_jCBoxDiaEntradaActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        modelTablaFactura.setRowCount(0);
+        String mes = jComboBox3.getSelectedItem().toString();
+        String dia = jComboBox4.getSelectedItem().toString();
+        String mesInt = mesInt(mes)+1+"";
+        for(Factura facturas : hotel.getFacturas(cliente)){
+            if(mesInt.equals(facturas.getFechaEmision().substring(3,4))){
+                if(dia.equals(facturas.getFechaEmision().substring(0,2))){
+                    modelTablaFactura.addRow( new Object[] {facturas.getFechaEmision(),facturas.getNumFactura(),facturas.getMontoTotal()});                
+                }
+            }    
+        }
+        if(modelTablaFactura.getRowCount()== 0){
+            JOptionPane.showMessageDialog(this, "No existe ninguna factura para esa fecha", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        jTable2.setModel(modelTablaFactura); 
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    public int mesInt(String mes){
+        return switch(mes){
+            case "Enero" -> 0;
+            case "Febrero" -> 1;
+            case "Marzo" -> 2;
+            case "Abril" -> 3;
+            case "Mayo" -> 4;
+            case "Junio" -> 5;
+            case "Julio" -> 6;
+            case "Agosto" -> 7;
+            case "Septiempre" -> 8;
+            case "Octubre" -> 9;
+            case "Noviembre" -> 10;
+            case "Diciembre" -> 11;
+            default ->0;
+        };
+    }
+    
     /**
      * @param args the command line arguments
      */

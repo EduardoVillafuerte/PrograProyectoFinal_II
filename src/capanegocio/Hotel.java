@@ -11,7 +11,10 @@ import java.sql.*;
 import static capanegocio.Articulo.LIMITEBAJO;
 import static capanegocio.Articulo.LIMITEMEDIO;
 import static capanegocio.Articulo.LIMITEALTO;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.sql.*;
 
@@ -19,13 +22,16 @@ import java.sql.*;
 public class Hotel {
     Cliente cliente = new Cliente();
     ConexionSQL cn = new ConexionSQL();
+    private List<Integer> dias;
     private List<Cliente> clientes;
     private List<Empleado> empleados;
     private List<String> asignacionesRecepcion;
     private List<String> asignacionesConserje;
     private List<Articulo> articulos;
+    private ResultSet rs;
 
     public Hotel(){
+        dias = new ArrayList<Integer>();
         clientes = new ArrayList<Cliente>();
         empleados = new ArrayList<Empleado>();
         articulos = new ArrayList<Articulo>();
@@ -267,15 +273,6 @@ public class Hotel {
         cliente.agregarReserva(new Reserva(habitacion,fechaReserva,fechaInicio,fechaFin, numReserva,diasTotal));
         return "se registro la reserva";
     }
-    public String agregarFactura(Cliente cliente, Reserva reserva, MetodoPago metodoPago){
-        GregorianCalendar gc = new GregorianCalendar();
-        int anio = gc.get(GregorianCalendar.YEAR);
-        int mes = gc.get(GregorianCalendar.MONTH);
-        int dia = gc.get(GregorianCalendar.DAY_OF_MONTH);
-        double montTotal = reserva.getDiasTotal()* reserva.getHabitacion().getPrecioNoche();
-        //cliente.agregarFactura(new Factura((int)(Math.random()*100),cliente,new Fecha(dia,mes,anio),montTotal,metodoPago));
-        return "se registro la reserva";
-    }
     
     public List<Articulo> getInventario(String tabla, int rol){
         String nombre,tipoPrioridad;
@@ -316,7 +313,7 @@ public class Hotel {
         
         StringBuilder factura = new StringBuilder();
         factura.append("*****************************************************\n");
-        factura.append("         FACTURA            \n");
+        factura.append("                     FACTURA                         \n");
         factura.append("*****************************************************\n");
         factura.append("Cliente: ").append(nombreCliente).append("\n");
         factura.append("Fecha: ").append(fecha.getHoy()).append("\n");
@@ -334,7 +331,7 @@ public class Hotel {
         factura.append("---------------------------------------------\n");
         factura.append(String.format("Total: $%.2f\n", compraTotal));
         factura.append("*****************************************************\n");
-        factura.append("       ¡Gracias por su compra!         \n");
+        factura.append("              ¡Gracias por su compra!                \n");
         factura.append("*****************************************************\n");
         
         Number random = Math.round(Math.random()*1000);
@@ -347,17 +344,63 @@ public class Hotel {
         }
     }
     
-    public void sumarArticulo( int cantidadReal, int cantidad ,String producto, String tabla ){
-        System.out.println(producto);
-        cn.sumarArticulos(cantidad, producto, cantidadReal, tabla);
-    }
-    
-    public void restarArticulos( int cantidadReal, int cantidad ,String producto, String tabla){
-        cn.modificarTablaArticulos( cantidadReal, cantidad , producto, "ProductoUsuarios");
-    }
-    
     public void cerrarRecursos(){
         cn.cerrarRecursos();
     }
     
+    public List<Integer> getDias(){
+        try{
+            rs = cn.obetenrDatos("meses");
+            while(rs.next()){
+                dias.add(rs.getInt("dia"));
+            }
+            return dias;
+        }catch(Exception e){
+            System.out.println("Error " + e.getMessage());
+        }
+        return null;
+    }
+    
+    public List<Factura> getFacturas(String cliente){
+        String rutaCarpeta = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/";
+        File carpeta = new File(rutaCarpeta);
+        List<Factura> facturas = new ArrayList<>();
+        if (carpeta.exists() && carpeta.isDirectory()) {
+            File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith(".txt"));
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+                        String linea;
+                        String nombreCliente = "";
+                        String fecha = "";
+                        String valorTotal = "";
+
+                        while ((linea = br.readLine()) != null) {
+                            if (linea.startsWith("Cliente:")) {
+                                nombreCliente = linea.replace("Cliente:", "").trim();
+                            } else if (linea.startsWith("Fecha:")) {
+                                fecha = linea.replace("Fecha:", "").trim();
+                            } else if (linea.startsWith("Total: $")) {
+                                valorTotal = linea.replace("Total: $", "").trim();
+                            }
+                        }
+                        String nombreSinExtension = archivo.getName().replaceFirst("\\.txt$", "");
+                        if(cliente.equals(nombreCliente))
+                            facturas.add(new Factura(fecha, nombreSinExtension,valorTotal));
+                    } catch (Exception e) {
+                        System.err.println("Error leyendo el archivo " + archivo.getName() + ": " + e.getMessage());
+                    }
+                }
+            }
+            return facturas;
+        } else {
+            System.err.println("La ruta especificada no es una carpeta válida.");
+        }
+        return null;
+    }
+    
+    public void guardarCambiosInventario(List<Articulo> articulo, String tabla){
+        cn.guardarCambiosInventario(articulo,tabla);
+    }
+
 }
