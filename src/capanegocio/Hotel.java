@@ -4,7 +4,6 @@ import capapersistencia.ConexionSQL;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.sql.*;
 
@@ -16,7 +15,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.sql.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class Hotel {
@@ -29,6 +32,8 @@ public class Hotel {
     private List<String> asignacionesConserje;
     private List<Articulo> articulos;
     private ResultSet rs;
+    private static final String RUTA_HABITACIONES = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/src/capanegocio/habitaciones";
+
 
     public Hotel(){
         dias = new ArrayList<Integer>();
@@ -37,16 +42,6 @@ public class Hotel {
         articulos = new ArrayList<Articulo>();
         asignacionesConserje = new ArrayList<String>();
         asignacionesRecepcion = new ArrayList<String>();
-        asignacionesConserje.add("Gestión de residuos y reciclaje");
-        asignacionesConserje.add("Limpieza de oficinas del primer piso");
-        asignacionesConserje.add("Limpieza de la cafetería y áreas de descanso");
-        asignacionesConserje.add("Mantenimiento de áreas comunes (pasillos y baños)");
-        asignacionesConserje.add("Supervisión de suministros de limpieza y reparaciones menores");
-        asignacionesRecepcion.add("Organización de agendas y citas de gerentes");
-        asignacionesRecepcion.add("Coordinación de salas de reuniones y eventos");
-        asignacionesRecepcion.add("Atención al cliente y registro de visitantes");
-        asignacionesRecepcion.add("Gestión de correspondencia y llamadas telefónicas");
-        asignacionesRecepcion.add("Gestión de solicitudes de acceso a áreas restringidas");
     }
 
     public ResultSet autenticarUsuario(String usuario, String contrasenia){
@@ -154,32 +149,6 @@ public class Hotel {
             empleado.agregarAsignacione(EstadoAsignacion.PENDIENTE,asignacionesRecepcion.get(opcion-1));
         }
         return "Listo";
-    }
-//
-//    public String modificarTarea(Empleado empleado, EstadoAsignacion estadoAsignacion){
-//        if(empleado.getCargo() == CargoEmpleado.CONSERJE){
-//            for(String asignacionTarea: asignacionesRecepcion){
-//                if(asignacionTarea.equals(empleado))
-//            }
-//        }
-//        else {
-//            System.out.println("Listado de asignaciones recepcion:\n");
-//            for (int i = 0; i < 5; i++) {
-//                System.out.println(i+1 +". "+ asignacionesRecepcion.get(i));
-//            }
-//        }
-//        empleado.agregarAsignacione(estadoAsignacion,);
-//        return "Listo";
-//    }
-
-    public StringBuilder mostrarArticulos(){
-        StringBuilder sb = new StringBuilder("Articulos: \n");
-        sb.append("Descripcion:      Categoria:       Canitdad: \n");
-        sb.append("---------------------------------------------\n");
-        for(Articulo articulo : articulos){
-            sb.append(articulo.getNombre()+" "+articulo.getCategoria().toString()+" "+articulo.getCantidadDisponible()+"\n");
-        }
-        return sb;
     }
 
     public Articulo buscarArticulo(String nombre){
@@ -361,6 +330,25 @@ public class Hotel {
         return null;
     }
     
+    public List<String> getHabitaciones(){
+        List<String> habitaciones = new ArrayList<>();
+        String rutaCarpeta = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/src/capanegocio/habitaciones/";
+        File carpeta = new File(rutaCarpeta);
+        if (carpeta.exists() && carpeta.isDirectory()) {
+            File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith(".txt"));
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    String nombreSinExtension = archivo.getName().replaceFirst("\\.txt$", "");
+                    habitaciones.add(nombreSinExtension);
+                }
+            }
+            return habitaciones;
+        } else {
+            System.err.println("La ruta especificada no es una carpeta válida.");
+        }
+        return null;
+    }
+    
     public List<Factura> getFacturas(String cliente){
         String rutaCarpeta = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/";
         File carpeta = new File(rutaCarpeta);
@@ -402,5 +390,109 @@ public class Hotel {
     public void guardarCambiosInventario(List<Articulo> articulo, String tabla){
         cn.guardarCambiosInventario(articulo,tabla);
     }
+    
 
+    public void reservar(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, String cliente) {
+        modificarDisponibilidad(habitacion, mesInicio, diaInicio, mesFin, diaFin, true, cliente);
+    }
+
+    public void cancelar(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, String cliente) {
+        modificarDisponibilidad(habitacion, mesInicio, diaInicio, mesFin, diaFin, false, cliente);
+    }
+
+    public void modificarDisponibilidad(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, boolean esReserva, String cliente) {
+        List<String> meses = obtenerMesesOrdenados();
+        int indiceMesInicio = meses.indexOf(mesInicio);
+        int indiceMesFin = meses.indexOf(mesFin);
+
+        try {
+            File archivo = new File(RUTA_HABITACIONES, habitacion + ".txt");
+
+            if (archivo.exists()) {
+                List<String> lineas = Files.readAllLines(archivo.toPath());
+                List<String> nuevasLineas = new ArrayList<>();
+                boolean disponibilidad = true;
+                int totalDias = 0;
+
+                for (String linea : lineas) {
+                    String[] partes = linea.split(":");
+                    String nombreMes = partes[0];
+                    String[] dias = partes[1].split(",");
+
+                    List<String> diasDisponibles = new ArrayList<>(Arrays.asList(dias));
+                    int indiceMes = meses.indexOf(nombreMes);
+
+                    if (indiceMes >= indiceMesInicio && indiceMes <= indiceMesFin) {
+                        int diaInicioActual = (indiceMes == indiceMesInicio) ? diaInicio : 1;
+                        int diaFinActual = (indiceMes == indiceMesFin) ? diaFin : diasDisponibles.size();
+
+                        // Verificar disponibilidad
+                        for (int dia = diaInicioActual; dia <= diaFinActual; dia++) {
+                            if (esReserva && !diasDisponibles.contains(String.valueOf(dia))) {
+                                disponibilidad = false;
+                                break;
+                            }
+                        }
+
+                        if (!disponibilidad) break;
+
+                        if (esReserva) {
+                            for (int dia = diaInicioActual; dia <= diaFinActual; dia++) {
+                                diasDisponibles.remove(String.valueOf(dia));
+                            }
+                            totalDias += (diaFinActual - diaInicioActual + 1);
+                        } else {
+                            for (int dia = diaInicioActual; dia <= diaFinActual; dia++) {
+                                if (!diasDisponibles.contains(String.valueOf(dia))) {
+                                    diasDisponibles.add(String.valueOf(dia));
+                                }
+                            }
+                            diasDisponibles.sort(Comparator.comparingInt(Integer::parseInt));
+                        }
+                    }
+
+                    nuevasLineas.add(nombreMes + ":" + String.join(",", diasDisponibles));
+                }
+
+                if (!disponibilidad) {
+                    System.out.println("Error: Algunos días ya están ocupados en la habitación: " + habitacion);
+                    return;
+                }
+
+                Files.write(archivo.toPath(), nuevasLineas);
+
+                if (esReserva) {
+                    guardarReserva(cliente, habitacion, mesInicio, diaInicio, mesFin, diaFin, totalDias);
+                    System.out.println("Reserva realizada con éxito para la habitación: " + habitacion);
+                } else {
+                    System.out.println("Cancelación realizada con éxito para la habitación: " + habitacion);
+                }
+            } else {
+                System.out.println("El archivo de la habitación especificada no existe: " + habitacion);
+            }
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error: " + e.getMessage());
+        }
+    }
+
+    public void guardarReserva(String cliente, String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, int totalDias) {
+        File archivoReservas = new File(RUTA_HABITACIONES, "reservas"+cliente+habitacion+".txt");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoReservas, true))) {
+            writer.write("Cliente: " + cliente);
+            writer.write(", Habitación: " + habitacion);
+            writer.write(", Inicio: " + mesInicio + " " + diaInicio);
+            writer.write(", Fin: " + mesFin + " " + diaFin);
+            writer.write(", Total de días: " + totalDias);
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println("Error al guardar la reserva: " + e.getMessage());
+        }
+    }
+
+
+    public List<String> obtenerMesesOrdenados() {
+        return Arrays.asList("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+    }
 }

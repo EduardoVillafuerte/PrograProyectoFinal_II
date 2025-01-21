@@ -27,6 +27,7 @@ public class JFrameCliente extends javax.swing.JFrame {
     private List<Articulo> articulosagregados;    
     private List<Articulo> articulos;
     private List<Integer> dias;
+    private List<String> habitaciones;
     private String[] meses;
     private int mesInicio;
     
@@ -38,6 +39,7 @@ public class JFrameCliente extends javax.swing.JFrame {
         this.cliente = cliente;
         this.compra_Total = 0;
         meses = new String[12];
+        this.habitaciones = new ArrayList<>();
         this.articulosagregados = new ArrayList<Articulo>();
         this.dias = new ArrayList<Integer>();
         initComponents();
@@ -49,6 +51,13 @@ public class JFrameCliente extends javax.swing.JFrame {
     }
     
     private void obtenerDatos(){
+        this.habitaciones = hotel.getHabitaciones();
+        DefaultComboBoxModel<String> modelTablaHabitaciones = new DefaultComboBoxModel<>();
+        for(String habitacion : habitaciones){
+            modelTablaHabitaciones.addElement(habitacion);
+        }
+        jCBoxHabitacion.setModel(modelTablaHabitaciones);
+        
         modeloTabla = new DefaultTableModel(
         new Object[]{"Nombre", "Cantidad", "Precio"}, 0);
         
@@ -188,7 +197,7 @@ public class JFrameCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaz/Img10.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/Img10.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, -10, 290, 220));
 
@@ -250,7 +259,6 @@ public class JFrameCliente extends javax.swing.JFrame {
         jCBoxDiaSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
         jCBoxDiaSalida.setBorder(null);
 
-        jCBoxHabitacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Individual", "Doble", "Suite" }));
         jCBoxHabitacion.setBorder(null);
 
         jButton1.setBackground(new java.awt.Color(153, 0, 153));
@@ -258,6 +266,11 @@ public class JFrameCliente extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Verificar Disponibilidad");
         jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLDisponibilidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -313,7 +326,7 @@ public class JFrameCliente extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jCBoxDiaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 369, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 377, Short.MAX_VALUE)
                         .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jCBoxHabitacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -612,7 +625,7 @@ public class JFrameCliente extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
         jLabel12.setText("Cantidad");
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaz/Img17.png"))); // NOI18N
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/Img17.png"))); // NOI18N
 
         jButton2.setBackground(new java.awt.Color(0, 153, 153));
         jButton2.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
@@ -830,7 +843,7 @@ public class JFrameCliente extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 200, 240));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaz/fondo4.jpg"))); // NOI18N
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/fondo4.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1197, 737));
 
         pack();
@@ -1027,6 +1040,15 @@ public class JFrameCliente extends javax.swing.JFrame {
         }
         jTable2.setModel(modelTablaFactura); 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String mesInicio = jCBoxMes.getSelectedItem().toString();
+        String habitacion = jCBoxHabitacion.getSelectedItem().toString();
+        int diaInicio = Integer.parseInt(jCBoxDiaEntrada.getSelectedItem().toString());
+        String mesFin = jComboBox1.getSelectedItem().toString();
+        int diaFin = Integer.parseInt(jCBoxDiaSalida.getSelectedItem().toString());
+        hotel.modificarDisponibilidad(habitacion,mesInicio, diaInicio, mesFin, diaFin,true,cliente);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public int mesInt(String mes){
         return switch(mes){
