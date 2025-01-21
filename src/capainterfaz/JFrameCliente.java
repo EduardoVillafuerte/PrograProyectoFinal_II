@@ -57,9 +57,6 @@ public class JFrameCliente extends javax.swing.JFrame {
         for(Factura facturas : hotel.getFacturas(cliente)){
             modelTablaFactura.addRow( new Object[] {facturas.getFechaEmision(),facturas.getNumFactura(),facturas.getMontoTotal()});
         }
-        if(modelTablaFactura.getRowCount()==0){
-            JOptionPane.showMessageDialog(this, "El cliente no tiene facturas", "Error", JOptionPane.ERROR_MESSAGE);
-        }
         jTable2.setModel(modelTablaFactura);  
         jTable1.setModel(modeloTabla);  
         meses[0]="Enero";
@@ -135,10 +132,8 @@ public class JFrameCliente extends javax.swing.JFrame {
         jLDisponibilidad = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         txtCorreo = new javax.swing.JTextField();
         txtCelular = new javax.swing.JTextField();
-        jCBoxMetodoPago = new javax.swing.JComboBox<>();
         btnConfirmarReserva = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
@@ -193,7 +188,7 @@ public class JFrameCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/Img10.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaz/Img10.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, -10, 290, 220));
 
@@ -272,15 +267,9 @@ public class JFrameCliente extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
         jLabel8.setText("Número Celular");
 
-        jLabel9.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
-        jLabel9.setText("Método de Pago");
-
         txtCorreo.setBorder(null);
 
         txtCelular.setBorder(null);
-
-        jCBoxMetodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tranferencia", "Tarjeta Debito", "Tarjeta Credito" }));
-        jCBoxMetodoPago.setBorder(null);
 
         btnConfirmarReserva.setBackground(new java.awt.Color(102, 0, 102));
         btnConfirmarReserva.setFont(new java.awt.Font("Lucida Bright", 1, 16)); // NOI18N
@@ -346,10 +335,7 @@ public class JFrameCliente extends javax.swing.JFrame {
                                         .addGap(265, 265, 265)
                                         .addComponent(btnConfirmarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(26, 26, 26)
-                                .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jCBoxMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelReservaLayout.createSequentialGroup()
                                 .addComponent(jLabel23)
                                 .addGap(264, 264, 264)
@@ -396,14 +382,10 @@ public class JFrameCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
+                .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBoxMetodoPago))
-                .addGap(40, 40, 40)
+                .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(btnConfirmarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(75, 75, 75))
         );
@@ -630,7 +612,7 @@ public class JFrameCliente extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
         jLabel12.setText("Cantidad");
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/Img17.png"))); // NOI18N
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaz/Img17.png"))); // NOI18N
 
         jButton2.setBackground(new java.awt.Color(0, 153, 153));
         jButton2.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
@@ -848,7 +830,7 @@ public class JFrameCliente extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 200, 240));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/fondo4.jpg"))); // NOI18N
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaz/fondo4.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1197, 737));
 
         pack();
@@ -886,6 +868,9 @@ public class JFrameCliente extends javax.swing.JFrame {
         modelTablaFactura.setRowCount(0);
         for(Factura facturas : hotel.getFacturas(cliente)){
             modelTablaFactura.addRow( new Object[] {facturas.getFechaEmision(),facturas.getNumFactura(),facturas.getMontoTotal()});
+        }
+        if(modelTablaFactura.getRowCount()==0){
+            JOptionPane.showMessageDialog(this, "El cliente no tiene facturas", "Error", JOptionPane.ERROR_MESSAGE);
         }
         jTable2.setModel(modelTablaFactura); 
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -1118,7 +1103,6 @@ public class JFrameCliente extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jCBoxDiaSalida;
     private javax.swing.JComboBox<String> jCBoxHabitacion;
     private javax.swing.JComboBox<String> jCBoxMes;
-    private javax.swing.JComboBox<String> jCBoxMetodoPago;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
@@ -1151,7 +1135,6 @@ public class JFrameCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
