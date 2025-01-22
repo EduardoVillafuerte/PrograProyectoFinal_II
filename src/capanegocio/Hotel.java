@@ -1,15 +1,13 @@
 package capanegocio;
 
 import capapersistencia.ConexionSQL;
-
+import static capanegocio.Articulo.LIMITEBAJO;
+import static capanegocio.Articulo.LIMITEMEDIO;
+import static capanegocio.Articulo.LIMITEALTO;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
-
-import static capanegocio.Articulo.LIMITEBAJO;
-import static capanegocio.Articulo.LIMITEMEDIO;
-import static capanegocio.Articulo.LIMITEALTO;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,18 +16,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
+import javax.swing.table.DefaultTableModel;
 
 
 public class Hotel {
-    Cliente cliente = new Cliente();
+
     ConexionSQL cn = new ConexionSQL();
     private List<Integer> dias;
     private List<Cliente> clientes;
     private List<Empleado> empleados;
-    private List<String> asignacionesRecepcion;
-    private List<String> asignacionesConserje;
     private List<Articulo> articulos;
     private ResultSet rs;
     private static final String RUTA_HABITACIONES = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/src/capanegocio/habitaciones";
@@ -40,28 +36,41 @@ public class Hotel {
         clientes = new ArrayList<Cliente>();
         empleados = new ArrayList<Empleado>();
         articulos = new ArrayList<Articulo>();
-        asignacionesConserje = new ArrayList<String>();
-        asignacionesRecepcion = new ArrayList<String>();
     }
 
     public ResultSet autenticarUsuario(String usuario, String contrasenia){
         return cn.loginUsuario(usuario,contrasenia);
     }
 
-    public String agregarCliente(Cliente cliente){
-        clientes.add(cliente);
-        return "Se agrego con exito";
+    public void agregarCliente(Cliente cliente){
+        if(buscarCliente(cliente.getCedula()) == null){
+            cn.agregarPersonas("clientes", cliente,null);
+        }
+        else
+            JOptionPane.showMessageDialog(null, "El cliente ya existe", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public List<Cliente> visualizarClientes() throws Exception {
-        if(clientes.isEmpty()){
-            throw new Exception("No existe ningun cliente");
+    public DefaultTableModel visualizarClientes(DefaultTableModel modelTablaClientes ){
+        try{
+            rs = cn.obetenrDatos("clientes");
+            while(rs.next()){
+                String nombre = rs.getString("nombre");
+                String cedula = rs.getString("cedula");
+                String apellido = rs.getString("apellido");
+                clientes.add(new Cliente(cedula,nombre,apellido));
+                modelTablaClientes.addRow(new Object[] {nombre,apellido,cedula});
+            }
+
+            return modelTablaClientes;
+        }catch(Exception e){
+            System.out.println("Error: "+e.getMessage());
+            return modelTablaClientes;
         }
-        return clientes;
     }
 
     public Cliente buscarCliente(String cedula){
         for(Cliente cliente: clientes){
+            System.out.println(cedula);
             if(cliente.getCedula().equals(cedula)){
                 return cliente;
             }
@@ -69,34 +78,45 @@ public class Hotel {
         return null;
     }
 
-    public String modificarCliente(String nombre, String apellido,Cliente cliente){
-        cliente.setNombre(nombre);
-        cliente.setApellido(apellido);
-        return "Realizado";
+    public void eliminarCliente(String cedula){
+        cn.modificarTablaPersonas(cedula, "clientes");
     }
 
-    public String eliminarCliente(String cedula){
-        for (Cliente c : clientes){
-            if(c.getCedula().equals(cedula)) {
-                clientes.remove(c);
-                return "Se removio el cliente con cedula: "+cedula;
+    public void agregarEmpleado(String cedula, String nombre, String apellido, String cargo){
+        Empleado empleado = new Empleado(cedula,nombre,apellido,tipoEmpleado(cargo));
+        if(buscarEmpleado(empleado.getCedula()) == null){
+            cn.agregarPersonas("empleados", null, empleado);
+        }else
+            JOptionPane.showMessageDialog(null, "El cliente ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public DefaultTableModel visualizarEmpleado(DefaultTableModel modelTablaEmpleados) {
+        try{
+            rs = cn.obetenrDatos("Empleados");
+            while(rs.next()){
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                String cedula = rs.getString("cedula");
+                String cargo = rs.getString("cargo");
+                empleados.add(new Empleado(cedula,nombre,apellido,tipoEmpleado(cargo)));
+                modelTablaEmpleados.addRow(new Object[] {nombre,apellido,cedula,tipoEmpleado(cargo)});
             }
+            return modelTablaEmpleados;
+        }catch(Exception e){
+            System.out.println("Error: "+ e.getMessage());
         }
-        return "";
+        
+        return modelTablaEmpleados;
     }
-
-    public String agregarEmpleado(Empleado empleado){
-        empleados.add(empleado);
-        return "Se agrego con exito";
+    
+    public CargoEmpleado tipoEmpleado(String cargo){
+        return switch (cargo) {
+            case "CONSERJE" -> CargoEmpleado.CONSERJE;
+            case "RECEPCION" -> CargoEmpleado.RECEPCION;
+            default -> CargoEmpleado.RECEPCION;
+        };
     }
-
-    public List<Empleado> visualizarEmpleado() throws Exception {
-        if(empleados.isEmpty()){
-            throw new Exception("No existe ningun cliente");
-        }
-        return empleados;
-    }
-
+    
     public Empleado buscarEmpleado(String cedula){
         for(Empleado empleado: empleados){
             if(empleado.getCedula().equals(cedula)){
@@ -106,51 +126,29 @@ public class Hotel {
         return null;
     }
 
-    public String modificarEmpleado(String nombre, String apellido, CargoEmpleado cargo, Empleado empleado){
-        empleado.setNombre(nombre);
-        empleado.setApellido(apellido);
-        empleado.setCargo(cargo);
-        empleado.setDisponibilidad(true);
-        empleado.setAsignaciones(new ArrayList<>());
-        return "Realizado";
-
+    public void eliminarEmpleado(String cedula){
+        cn.modificarTablaPersonas(cedula, "empleados");        
     }
 
-    public String eliminarEmpleado(String cedula){
-        for (Empleado e : empleados){
-            if(e.getCedula().equals(cedula)) {
-                empleados.remove(e);
-                return "Se removio el empleado con cedula: "+cedula;
+    public DefaultTableModel visualizarArticulos(DefaultTableModel modelTablaArticulos){
+        try{
+            articulos.clear();
+            rs = cn.obetenrDatos("ProductoEmpleados");
+            while(rs.next()){
+                String nombre = rs.getString("nombre");
+                int cantidad = rs.getInt("cantidad");
+                String prioridad = rs.getString("tipoPrioridad");
+                String categoria = rs.getString("Categoria");
+                articulos.add(new Articulo(nombre,0,tipoCategoria(categoria),cantidad,tipoPrioridad(prioridad)));
+                modelTablaArticulos.addRow(new Object[] {nombre, categoria,cantidad,prioridad});
             }
+            return modelTablaArticulos;
+        }catch(Exception e){
+            System.out.println("Error: "+ e.getMessage());
         }
-        return "";
+        return modelTablaArticulos;
     }
-
-    public void visualizarAsignaciones(Empleado empleado) {
-        if(empleado.getCargo() == CargoEmpleado.CONSERJE){
-            System.out.println("Listdo de asignaciones conserje\n");
-            for (int i = 0; i < 5; i++) {
-                System.out.println(i+1 +". "+ asignacionesConserje.get(i));
-            }
-        }
-        else {
-            System.out.println("Listado de asignaciones recepcion:\n");
-            for (int i = 0; i < 5; i++) {
-                System.out.println(i+1 +". "+ asignacionesRecepcion.get(i));
-            }
-        }
-    }
-
-    public String asignarTarea(int opcion, Empleado empleado){
-        if(empleado.getCargo() == CargoEmpleado.CONSERJE){
-            empleado.agregarAsignacione(EstadoAsignacion.PENDIENTE,asignacionesConserje.get(opcion-1));
-        }
-        else {
-            empleado.agregarAsignacione(EstadoAsignacion.PENDIENTE,asignacionesRecepcion.get(opcion-1));
-        }
-        return "Listo";
-    }
-
+    
     public Articulo buscarArticulo(String nombre){
         for(Articulo articulo : articulos){
             if(articulo.getNombre().equals(nombre)){
@@ -160,112 +158,73 @@ public class Hotel {
         return null;
     }
 
-    public void agregarArticulo(String nombre, float precio ,Categoria categoria, int cantidad, TipoAlerta prioridad) {
+    public void agregarArticulo(String nombre, float precio ,String categoria, int cantidad) {
         if(buscarArticulo(nombre) == null){
-            articulos.add(new Articulo(nombre, precio, categoria, cantidad, prioridad));
-        }
-        else {
-            JOptionPane.showMessageDialog(null,"El articulo ya se encuetra registrado");
-        }
+            try{
+                cn.agregarArticulos("ProductoEmpleados", new Articulo(nombre, precio, tipoCategoria(categoria), cantidad, alertas(cantidad)));
+            }
+            catch(Exception e){
+                System.out.println("error "+e.getMessage());
+            }
+        }else{JOptionPane.showMessageDialog(null,"El articulo ya se encuetra registrado");}
+
     }
 
     public void eliminarArticulo(String nombre) {
-        for (int i = 0; i < articulos.size(); i++) {
-            if (articulos.get(i).getNombre().equals(nombre)) {
-                JOptionPane.showMessageDialog(null,"Artículo eliminado: " + articulos.get(i).getNombre());
-                articulos.remove(i);
-                return;
-            }
-        }
-        JOptionPane.showMessageDialog(null,"Artículo no encontrado: " + nombre);
+        cn.eliminarArticulo(nombre, "ProductoEmpleados");
     }
 
-    public void modificarArticulo(Articulo articulo, String nombre, Categoria categoria, TipoAlerta prioridad, int cantidad){
-        try {
-            articulo.setNombre(nombre);
-            articulo.setCategoria(categoria);
-            articulo.setPrioridad(prioridad);
-            articulo.setCantidadDisponible(cantidad);
-            JOptionPane.showMessageDialog(null, "Realizado");
-            System.out.println(articulo.getNombre());
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "No se encuentra el producto a modificar");
-        }
-    }
-
-    public void retirarArticulo(String nombre, int cantidad){
-        Articulo articulo = buscarArticulo(nombre);
-        if(articulo != null) {
-            if (cantidad > articulo.getCantidadDisponible()) {
-                JOptionPane.showMessageDialog(null, "No hay suficientes articulos");
-            } else {
-                int cantidadTotal = articulo.getCantidadDisponible() - cantidad;
-                alertas(cantidadTotal, articulo);
-                articulo.setCantidadDisponible(cantidadTotal);
-                JOptionPane.showMessageDialog(null, "Se realizo con exito");
-            }
-        }
-        else
-            JOptionPane.showMessageDialog(null, "No se encontro el articulo");
-    }
-
-    public void alertas(int cantidad, Articulo articulo){
+    public TipoAlerta alertas(int cantidad){
         if(cantidad <= LIMITEBAJO){
-            articulo.setPrioridad(TipoAlerta.ALTA);
-            JOptionPane.showMessageDialog(null,"La prioridad de este articulo es: "+TipoAlerta.ALTA);
+            return TipoAlerta.ALTA;
         } else if (cantidad > LIMITEBAJO && cantidad <= LIMITEMEDIO) {
-            articulo.setPrioridad(TipoAlerta.MEDIA);
-            JOptionPane.showMessageDialog(null,"La prioridad de este articulo es: "+TipoAlerta.MEDIA);
+            return TipoAlerta.MEDIA;
         } else if (cantidad > LIMITEMEDIO && cantidad < LIMITEALTO) {
-            articulo.setPrioridad(TipoAlerta.BAJA);
-            JOptionPane.showMessageDialog(null,"La prioridad de este articulo es: "+TipoAlerta.BAJA);
+            return TipoAlerta.BAJA;
         }
         else {
-            articulo.setPrioridad(TipoAlerta.NA);
-            JOptionPane.showMessageDialog(null,"El articulo no tiene prioridad");
+            return TipoAlerta.NA;
         }
-    }
-
-    public void comprarArticulo(String nombre, int cantidad){
-        Articulo articulo = buscarArticulo(nombre);
-        if(articulo != null){
-            articulo.setCantidadDisponible(articulo.getCantidadDisponible()+cantidad);
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "No se encontro el articulo");
-        }
-    }
-
-    public String agregarReserva(int numReserva, Fecha fechaReserva, Fecha fechaInicio, Fecha fechaFin, Habitacion habitacion){
-        int diasTotal = fechaFin.getDia() - fechaInicio.getDia();
-        cliente.agregarReserva(new Reserva(habitacion,fechaReserva,fechaInicio,fechaFin, numReserva,diasTotal));
-        return "se registro la reserva";
     }
     
-    public List<Articulo> getInventario(String tabla, int rol){
-        String nombre,tipoPrioridad;
+    public List<Articulo> getInventario(String tabla){
+        String nombre,tipoPrioridad,categoria;
         int cantidad;
         float precio;
-        if(rol == 1){
-            try{
-                ResultSet rs = cn.obetenrDatos(tabla);
-                while(rs.next()){
-                    nombre = rs.getString("nombre");
-                    precio = rs.getFloat("precio");
-                    cantidad = rs.getInt("cantidad");
-                    tipoPrioridad = rs.getString("tipoPrioridad"); 
-                    articulos.add(new Articulo(nombre,precio, Categoria.ALIMENTO ,cantidad, tipoAlerta(tipoPrioridad)));
-                }
-                return articulos;
-            }catch(Exception e){
-                System.out.println("error: "+e.getMessage());
-
+        try{
+            ResultSet rs = cn.obetenrDatos(tabla);
+            while(rs.next()){
+                nombre = rs.getString("nombre");
+                precio = rs.getFloat("precio");
+                cantidad = rs.getInt("cantidad");
+                tipoPrioridad = rs.getString("tipoPrioridad");
+                categoria = rs.getString("Categoria");
+                articulos.add(new Articulo(nombre,precio, tipoCategoria(categoria) ,cantidad, tipoAlerta(tipoPrioridad)));
             }
-            
-        }
-        
+            return articulos;
+        }catch(Exception e){
+            System.out.println("error: "+e.getMessage());
+        }        
         return null;
+    }
+   
+    public Categoria tipoCategoria(String categoria){
+        return switch (categoria) {
+            case "ALIMENTO" -> Categoria.ALIMENTO;
+            case "ACCESORIO_BANIO" -> Categoria.ACCESORIO_BANIO;
+            case "LIMPIEZA" -> Categoria.LIMPIEZA;
+            case "ROPA_CAMA" -> Categoria.ROPA_CAMA;
+            default -> Categoria.NA;
+        };
+    }
+    
+    public TipoAlerta tipoPrioridad(String categoria){
+        return switch (categoria) {
+            case "ALTA" -> TipoAlerta.ALTA;
+            case "MEIA" -> TipoAlerta.MEDIA;
+            case "BAJA" -> TipoAlerta.BAJA;
+            default -> TipoAlerta.NA;
+        };
     }
     
     public TipoAlerta tipoAlerta(String alertaString){
@@ -313,10 +272,6 @@ public class Hotel {
         }
     }
     
-    public void cerrarRecursos(){
-        cn.cerrarRecursos();
-    }
-    
     public List<Integer> getDias(){
         try{
             rs = cn.obetenrDatos("meses");
@@ -330,7 +285,7 @@ public class Hotel {
         return null;
     }
     
-    public List<String> getHabitaciones(){
+    public DefaultComboBoxModel<String> getHabitaciones(){
         List<String> habitaciones = new ArrayList<>();
         String rutaCarpeta = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/src/capanegocio/habitaciones/";
         File carpeta = new File(rutaCarpeta);
@@ -342,14 +297,30 @@ public class Hotel {
                     habitaciones.add(nombreSinExtension);
                 }
             }
-            return habitaciones;
+            
+            DefaultComboBoxModel<String> modelTablaHabitaciones = new DefaultComboBoxModel<>();
+            for(String habitacion : habitaciones){
+                modelTablaHabitaciones.addElement(habitacion);
+            }
+            
+            return modelTablaHabitaciones;
         } else {
             System.err.println("La ruta especificada no es una carpeta válida.");
         }
         return null;
     }
     
-    public List<Factura> getFacturas(String cliente){
+    public DefaultTableModel getFacturas(String cliente,DefaultTableModel modelTablaFactura){
+        try{
+            for(Factura factura : obtenerTodasFcturas(cliente)){
+                modelTablaFactura.addRow( new Object[] {factura.getFechaEmision(),factura.getNumFactura(),factura.getMontoTotal()});
+            }
+        }catch(Exception e){System.out.println("No hay facturas "+e.getMessage());}
+        return modelTablaFactura;
+    }
+    
+    public List<Factura> obtenerTodasFcturas(String cliente){
+                
         String rutaCarpeta = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/";
         File carpeta = new File(rutaCarpeta);
         List<Factura> facturas = new ArrayList<>();
@@ -387,10 +358,20 @@ public class Hotel {
         return null;
     }
     
+    public DefaultTableModel getFacturasPorFecha(String cliente, String mesStr, String dia, int fin, DefaultTableModel modelTablaFactura){
+        for(Factura facturas : obtenerTodasFcturas(cliente)){
+            if(mesStr.equals(facturas.getFechaEmision().substring(3,fin))){
+                if(dia.equals(facturas.getFechaEmision().substring(0,2))){
+                    modelTablaFactura.addRow( new Object[] {facturas.getFechaEmision(),facturas.getNumFactura(),facturas.getMontoTotal()});                
+                }
+            }    
+        }
+        return modelTablaFactura;
+    }
+    
     public void guardarCambiosInventario(List<Articulo> articulo, String tabla){
         cn.guardarCambiosInventario(articulo,tabla);
     }
-    
 
     public void reservar(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, String cliente) {
         modificarDisponibilidad(habitacion, mesInicio, diaInicio, mesFin, diaFin, true, cliente);
@@ -412,6 +393,7 @@ public class Hotel {
                 List<String> lineas = Files.readAllLines(archivo.toPath());
                 List<String> nuevasLineas = new ArrayList<>();
                 boolean disponibilidad = true;
+                List<String> diasOcupados = new ArrayList<>(); // Lista para los días ocupados
                 int totalDias = 0;
 
                 for (String linea : lineas) {
@@ -426,16 +408,18 @@ public class Hotel {
                         int diaInicioActual = (indiceMes == indiceMesInicio) ? diaInicio : 1;
                         int diaFinActual = (indiceMes == indiceMesFin) ? diaFin : diasDisponibles.size();
 
-                        // Verificar disponibilidad
+                        // Verificar disponibilidad y recopilar días ocupados
                         for (int dia = diaInicioActual; dia <= diaFinActual; dia++) {
                             if (esReserva && !diasDisponibles.contains(String.valueOf(dia))) {
                                 disponibilidad = false;
-                                break;
+                                diasOcupados.add(nombreMes + " " + dia); // Agregar día ocupado
                             }
                         }
 
+                        // Si no está disponible, salir del bucle
                         if (!disponibilidad) break;
 
+                        // Reservar o restaurar
                         if (esReserva) {
                             for (int dia = diaInicioActual; dia <= diaFinActual; dia++) {
                                 diasDisponibles.remove(String.valueOf(dia));
@@ -455,7 +439,8 @@ public class Hotel {
                 }
 
                 if (!disponibilidad) {
-                    System.out.println("Error: Algunos días ya están ocupados en la habitación: " + habitacion);
+                    String mensajeError = "Los siguientes días ya están ocupados:\n" + String.join(", ", diasOcupados);
+                    JOptionPane.showMessageDialog(null, mensajeError, "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -463,9 +448,9 @@ public class Hotel {
 
                 if (esReserva) {
                     guardarReserva(cliente, habitacion, mesInicio, diaInicio, mesFin, diaFin, totalDias);
-                    System.out.println("Reserva realizada con éxito para la habitación: " + habitacion);
+                    JOptionPane.showMessageDialog(null, "Reserva realizada con éxito para la habitación: " + habitacion, "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    System.out.println("Cancelación realizada con éxito para la habitación: " + habitacion);
+                    JOptionPane.showMessageDialog(null, "Cancelación realizada con éxito para la habitación: " + habitacion, "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
                 System.out.println("El archivo de la habitación especificada no existe: " + habitacion);
@@ -476,7 +461,7 @@ public class Hotel {
     }
 
     public void guardarReserva(String cliente, String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, int totalDias) {
-        File archivoReservas = new File(RUTA_HABITACIONES, "reservas"+cliente+habitacion+".txt");
+        File archivoReservas = new File(RUTA_HABITACIONES+"/reservas/", "reservas"+cliente+habitacion+".txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoReservas, true))) {
             writer.write("Cliente: " + cliente);
@@ -490,9 +475,62 @@ public class Hotel {
         }
     }
 
-
     public List<String> obtenerMesesOrdenados() {
         return Arrays.asList("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
                 "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
     }
+    
+    public DefaultTableModel generarModeloTabla(String numeroHabitacion) {
+        String nombreArchivo = numeroHabitacion + ".txt";
+        File archivo = new File(RUTA_HABITACIONES, nombreArchivo);
+        
+        DefaultTableModel modeloTabla = new DefaultTableModel(
+            new Object[]{"Mes", "Días Disponibles"}, 0
+        );
+        
+        try {
+            List<String> lineas = Files.readAllLines(archivo.toPath());
+
+            for (String linea : lineas) {
+                String[] partes = linea.split(":");
+                String mes = partes[0];
+                String[] dias = partes[1].split(",");
+                StringBuilder diasMostrar = new StringBuilder();
+                List<Integer> diasm = getDias();
+                for (int i = 1; i <= diasm.get(mesInt(mes)); i++) {
+                    if (Arrays.asList(dias).contains(String.valueOf(i))) {
+                        diasMostrar.append(i).append(" | ");
+                    } else {
+                        diasMostrar.append("X | ");
+                    }
+                }
+
+                modeloTabla.addRow(new Object[]{mes, diasMostrar.toString().trim()});
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
+        }
+
+        return modeloTabla;
+    }
+    
+    public int mesInt(String mes){
+        return switch(mes){
+            case "Enero" -> 0;
+            case "Febrero" -> 1;
+            case "Marzo" -> 2;
+            case "Abril" -> 3;
+            case "Mayo" -> 4;
+            case "Junio" -> 5;
+            case "Julio" -> 6;
+            case "Agosto" -> 7;
+            case "Septiempre" -> 8;
+            case "Octubre" -> 9;
+            case "Noviembre" -> 10;
+            case "Diciembre" -> 11;
+            default ->0;
+        };
+    }
+    
 }

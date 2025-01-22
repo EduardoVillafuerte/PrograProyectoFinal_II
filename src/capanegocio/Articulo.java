@@ -1,8 +1,6 @@
 
 package capanegocio;
 
-import java.util.List;
-
 public class Articulo {
 
     private String nombre;
@@ -24,9 +22,9 @@ public class Articulo {
     
     public Articulo(String nombre, int cantidad, float precio) {
         this.nombre = nombre;
-        this.cantidadDisponible = cantidad;
         this.precio = precio;
-    }
+        this.cantidadDisponible = cantidad;
+    }    
 
     public String getNombre() {
         return nombre;

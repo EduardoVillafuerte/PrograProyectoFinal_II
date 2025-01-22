@@ -8,10 +8,10 @@ public class Reserva {
     private Fecha fechaReserva;
     private Fecha fechaInicio;
     private Fecha fechaFin;
-    private Habitacion habitacion;
+    private int habitacion;
     private int diasTotal;
 
-    public Reserva(Habitacion habitacion, Fecha fechaFin, Fecha fechaInicio, Fecha fechaReserva, int numReserva, int diasTotal) {
+    public Reserva(int habitacion, Fecha fechaFin, Fecha fechaInicio, Fecha fechaReserva, int numReserva, int diasTotal) {
         this.habitacion = habitacion;
         this.fechaFin = fechaFin;
         this.fechaInicio = fechaInicio;
@@ -20,11 +20,4 @@ public class Reserva {
         this.diasTotal = diasTotal;
     }
 
-    public int getDiasTotal() {
-        return diasTotal;
-    }
-
-    public Habitacion getHabitacion() {
-        return habitacion;
-    }
 }

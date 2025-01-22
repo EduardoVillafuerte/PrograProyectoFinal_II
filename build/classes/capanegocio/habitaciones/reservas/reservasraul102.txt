@@ -1,0 +1,1 @@
+Cliente: raul, Habitación: 102, Inicio: Febrero 1, Fin: Febrero 3, Total de días: 3
