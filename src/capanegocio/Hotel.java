@@ -380,7 +380,7 @@ public class Hotel {
     public void cancelar(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, String cliente) {
         modificarDisponibilidad(habitacion, mesInicio, diaInicio, mesFin, diaFin, false, cliente);
     }
-
+    
     public void modificarDisponibilidad(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, boolean esReserva, String cliente) {
         List<String> meses = obtenerMesesOrdenados();
         int indiceMesInicio = meses.indexOf(mesInicio);
@@ -393,7 +393,7 @@ public class Hotel {
                 List<String> lineas = Files.readAllLines(archivo.toPath());
                 List<String> nuevasLineas = new ArrayList<>();
                 boolean disponibilidad = true;
-                List<String> diasOcupados = new ArrayList<>(); // Lista para los días ocupados
+                List<String> diasOcupados = new ArrayList<>();
                 int totalDias = 0;
 
                 for (String linea : lineas) {
@@ -408,18 +408,15 @@ public class Hotel {
                         int diaInicioActual = (indiceMes == indiceMesInicio) ? diaInicio : 1;
                         int diaFinActual = (indiceMes == indiceMesFin) ? diaFin : diasDisponibles.size();
 
-                        // Verificar disponibilidad y recopilar días ocupados
                         for (int dia = diaInicioActual; dia <= diaFinActual; dia++) {
                             if (esReserva && !diasDisponibles.contains(String.valueOf(dia))) {
                                 disponibilidad = false;
-                                diasOcupados.add(nombreMes + " " + dia); // Agregar día ocupado
+                                diasOcupados.add(nombreMes + " " + dia);
                             }
                         }
 
-                        // Si no está disponible, salir del bucle
                         if (!disponibilidad) break;
 
-                        // Reservar o restaurar
                         if (esReserva) {
                             for (int dia = diaInicioActual; dia <= diaFinActual; dia++) {
                                 diasDisponibles.remove(String.valueOf(dia));
@@ -459,16 +456,105 @@ public class Hotel {
             System.out.println("Ocurrió un error: " + e.getMessage());
         }
     }
+    
+    public DefaultTableModel getReservas(DefaultTableModel modelTablaReservas,String cliente){
+        File carpeta = new File("C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\habitaciones\\reservas");
+        if (carpeta.exists() && carpeta.isDirectory()) {
+            File[] archivos = carpeta.listFiles((dir, name) -> name.startsWith("reservas" + cliente) && name.endsWith(".txt"));
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+                        String linea;
+                        while ((linea = br.readLine()) != null) {
+                            if (linea.startsWith("Cliente: " + cliente)) {
+                                String[] partes = linea.split(", ");
+                                String habitacion = partes[1].split(": ")[1];
+                                String inicio = partes[2].split(": ")[1];
+                                String fin = partes[3].split(": ")[1];
+                                int totalDias = Integer.parseInt(partes[4].split(": ")[1]);
+                                String fechaReserva = partes[5].split(": ")[1];
+                                modelTablaReservas.addRow(new Object[] {cliente,habitacion,inicio ,fin,fechaReserva,totalDias});
+                            }
+                        }
+                    } catch (IOException e) {
+                        System.err.println("Error leyendo archivo: " + archivo.getName() + " - " + e.getMessage());
+                    }
+                }
+            }
+        } else {
+            System.err.println("La ruta especificada no es una carpeta válida.");
+        }
+        return modelTablaReservas;
+    }
 
+    public void cancelarReserva(String cliente, String habitacion, String fechaInicio, String fechaFin) {
+        String[] partesInicio = fechaInicio.split(" ");
+        String mesInicio = partesInicio[0];
+        int diaInicio = Integer.parseInt(partesInicio[1]);
+        String[] partesFin = fechaFin.split(" ");
+        String mesFin = partesFin[0];
+        int diaFin = Integer.parseInt(partesFin[1]);
+        eliminarReserva(cliente, habitacion, mesInicio + " " + diaInicio);
+        cancelar(habitacion, mesInicio, diaInicio, mesFin, diaFin, cliente);
+    }
+
+    public void eliminarReserva(String cliente, String habitacion, String diaInicio) {
+        File carpeta = new File(RUTA_HABITACIONES+"/reservas/");
+
+        if (carpeta.exists() && carpeta.isDirectory()) {
+            File[] archivos = carpeta.listFiles((dir, name) -> name.startsWith("reservas" + cliente) && name.endsWith(".txt"));
+
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    try {
+                        List<String> nuevasLineas = new ArrayList<>();
+                        boolean eliminado = false;
+
+                        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+                            String linea;
+                            while ((linea = br.readLine()) != null) {
+                                if (linea.startsWith("Cliente: " + cliente) &&
+                                    linea.contains("Habitación: " + habitacion) &&
+                                    linea.contains("Inicio: " + diaInicio)) {
+                                    eliminado = true;
+                                } else {
+                                    nuevasLineas.add(linea);
+                                }
+                            }
+                        }
+
+                        if (eliminado) {
+                            try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
+                                for (String linea : nuevasLineas) {
+                                    bw.write(linea);
+                                    bw.newLine();
+                                }
+                                System.out.println("Línea eliminada del archivo: " + archivo.getName());
+                            }
+                        } else {
+                            System.out.println("No se encontró la línea en el archivo: " + archivo.getName());
+                        }
+
+                    } catch (IOException e) {
+                        System.err.println("Error procesando archivo: " + archivo.getName() + " - " + e.getMessage());
+                    }
+                }
+            }
+        } else {
+            System.err.println("La ruta especificada no es una carpeta válida.");
+        }
+    }
+    
     public void guardarReserva(String cliente, String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, int totalDias) {
         File archivoReservas = new File(RUTA_HABITACIONES+"/reservas/", "reservas"+cliente+habitacion+".txt");
-
+        Fecha fecha = new Fecha();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoReservas, true))) {
             writer.write("Cliente: " + cliente);
             writer.write(", Habitación: " + habitacion);
             writer.write(", Inicio: " + mesInicio + " " + diaInicio);
             writer.write(", Fin: " + mesFin + " " + diaFin);
             writer.write(", Total de días: " + totalDias);
+            writer.write(", Reserva: " + fecha.getHoy());
             writer.newLine();
         } catch (IOException e) {
             System.out.println("Error al guardar la reserva: " + e.getMessage());

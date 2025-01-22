@@ -5,11 +5,9 @@
         <group>
             <file>file:/C:/Programacion%20UDLA/Programacion%20II/PrograProyectoFinal_II/src/capanegocio/Hotel.java</file>
             <file>file:/C:/Programacion%20UDLA/Programacion%20II/PrograProyectoFinal_II/src/capainterfaz/JFrameAdmin.java</file>
-            <file>file:/C:/Programacion%20UDLA/Programacion%20II/PrograProyectoFinal_II/src/capanegocio/Articulo.java</file>
             <file>file:/C:/Programacion%20UDLA/Programacion%20II/PrograProyectoFinal_II/src/capainterfaz/JFrameCliente.java</file>
-            <file>file:/C:/Programacion%20UDLA/Programacion%20II/PrograProyectoFinal_II/src/capanegocio/TipoAlerta.java</file>
-            <file>file:/C:/Programacion%20UDLA/Programacion%20II/PrograProyectoFinal_II/src/capanegocio/Categoria.java</file>
-            <file>file:/C:/Programacion%20UDLA/Programacion%20II/PrograProyectoFinal_II/src/capapersistencia/ConexionSQL.java</file>
+            <file>file:/C:/Programacion%20UDLA/Programacion%20II/PrograProyectoFinal_II/src/capanegocio/Fecha.java</file>
+            <file>file:/C:/Programacion%20UDLA/Programacion%20II/PrograProyectoFinal_II/src/capanegocio/Reserva.java</file>
         </group>
     </open-files>
 </project-private>

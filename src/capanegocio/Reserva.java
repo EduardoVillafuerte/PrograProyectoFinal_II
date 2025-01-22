@@ -1,22 +1,18 @@
 package capanegocio;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Reserva {
-    private int numReserva;
-    private Fecha fechaReserva;
-    private Fecha fechaInicio;
-    private Fecha fechaFin;
-    private int habitacion;
-    private int diasTotal;
+    private String fechaReserva;
+    private String fechaInicio;
+    private String fechaFin;
+    private String habitacion;
+    private String diasTotal;
 
-    public Reserva(int habitacion, Fecha fechaFin, Fecha fechaInicio, Fecha fechaReserva, int numReserva, int diasTotal) {
+    public Reserva(String habitacion, String fechaFin, String fechaInicio, String fechaReserva, String diasTotal) {
         this.habitacion = habitacion;
         this.fechaFin = fechaFin;
         this.fechaInicio = fechaInicio;
         this.fechaReserva = fechaReserva;
-        this.numReserva = numReserva;
         this.diasTotal = diasTotal;
     }
 

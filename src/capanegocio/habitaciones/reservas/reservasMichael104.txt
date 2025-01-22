@@ -1,1 +1,0 @@
-Cliente: Michael, Habitación: 104, Inicio: Enero 1, Fin: Enero 8, Total de días: 8

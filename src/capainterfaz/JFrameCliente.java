@@ -20,6 +20,7 @@ public class JFrameCliente extends javax.swing.JFrame {
     private Hotel hotel;
     private DefaultTableModel modeloTabla; 
     private DefaultTableModel modelTablaFactura;
+    private DefaultTableModel modelTablaReservas;
     private double compra_Total;
     private String cliente;
     private List<Articulo> articulosagregados;    
@@ -57,7 +58,12 @@ public class JFrameCliente extends javax.swing.JFrame {
     private void obtenerDatos(){
         llenaDias();
         jCBoxHabitacion.setModel(hotel.getHabitaciones());
+        
+        modelTablaReservas = new DefaultTableModel(
+        new Object[]{"Cliente","Habitacion", "Fecha Inicio", "Fecha Fin", "Fecha Reserva","Numero de dias"}, 0);
 
+        jTable3.setModel(hotel.getReservas(modelTablaReservas,cliente));
+        
         modeloTabla = new DefaultTableModel(
         new Object[]{"Nombre", "Cantidad", "Precio"}, 0);
         jTable1.setModel(modeloTabla);  
@@ -590,10 +596,13 @@ public class JFrameCliente extends javax.swing.JFrame {
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(99, Short.MAX_VALUE))
             .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
-                .addGap(139, 139, 139)
-                .addGroup(PanelCancelarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
+                .addGroup(PanelCancelarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
+                        .addGap(263, 263, 263)
+                        .addComponent(jLabel15)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         PanelCancelarReservaLayout.setVerticalGroup(
@@ -605,9 +614,9 @@ public class JFrameCliente extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
@@ -910,7 +919,19 @@ public class JFrameCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        if(!jCheckBox1.isSelected()){
+            JOptionPane.showMessageDialog(this, "Marque el checkbox primero de terminos y condiciones", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            int num = jTable3.getSelectedRow();
+            String cliente,habitacion,inicio,fin;
+            cliente = modelTablaReservas.getValueAt(num, 0).toString();
+            habitacion = modelTablaReservas.getValueAt(num, 1).toString();
+            inicio = modelTablaReservas.getValueAt(num, 2).toString();
+            fin = modelTablaReservas.getValueAt(num, 3).toString();
+            hotel.cancelarReserva(cliente, habitacion, inicio,fin);
+            obtenerDatos();
+        }
+        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -1073,6 +1094,7 @@ public class JFrameCliente extends javax.swing.JFrame {
             hotel.modificarDisponibilidad(habitacion,mesInicio, diaInicio, mesFin, diaFin,true,cliente);
             llenaDias();
             jCBoxHabitacion.setSelectedIndex(0);
+            obtenerDatos();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
