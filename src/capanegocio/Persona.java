@@ -1,8 +1,8 @@
 package capanegocio;
 
 public class Persona {
-    private String cedula;
-    private String nombre;
+    String cedula;
+    String nombre;
     private String apellido;
 
     public Persona(String cedula, String nombre, String apellido) {

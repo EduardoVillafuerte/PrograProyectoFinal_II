@@ -5,6 +5,7 @@
 package capainterfaz;
 import capanegocio.Articulo;
 import capanegocio.Hotel;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -22,7 +23,7 @@ public class JFrameCliente extends javax.swing.JFrame {
     private DefaultTableModel modelTablaFactura;
     private DefaultTableModel modelTablaReservas;
     private double compra_Total;
-    private String cliente;
+    private String cedula;
     private List<Articulo> articulosagregados;    
     private List<Articulo> articulos;
     private List<Integer> dias;
@@ -32,9 +33,9 @@ public class JFrameCliente extends javax.swing.JFrame {
     /**
      * Creates new form JFrameCliente
      */
-    public JFrameCliente(Hotel hotel, String cliente) {
+    public JFrameCliente(Hotel hotel, String cedula) {
         this.hotel = hotel;
-        this.cliente = cliente;
+        this.cedula = cedula;
         this.compra_Total = 0;
         this.meses = new String[12];
         this.articulosagregados = new ArrayList<Articulo>();
@@ -57,12 +58,13 @@ public class JFrameCliente extends javax.swing.JFrame {
     
     private void obtenerDatos(){
         llenaDias();
+        hotel.obtenerClientes();
         jCBoxHabitacion.setModel(hotel.getHabitaciones());
         
         modelTablaReservas = new DefaultTableModel(
-        new Object[]{"Cliente","Habitacion", "Fecha Inicio", "Fecha Fin", "Fecha Reserva","Numero de dias"}, 0);
+        new Object[]{"Cedula","Cliente","Habitacion", "Fecha Inicio", "Fecha Fin", "Fecha Reserva","Numero de dias"}, 0);
 
-        jTable3.setModel(hotel.getReservas(modelTablaReservas,cliente));
+        jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));
         
         modeloTabla = new DefaultTableModel(
         new Object[]{"Nombre", "Cantidad", "Precio"}, 0);
@@ -70,7 +72,7 @@ public class JFrameCliente extends javax.swing.JFrame {
 
         modelTablaFactura = new DefaultTableModel(
         new Object[]{"Fecha", "NumFactura", "Total"}, 0);
-        jTable2.setModel(hotel.getFacturas(cliente,modelTablaFactura));  
+        jTable2.setModel(hotel.getFacturas(cedula,modelTablaFactura));  
 
         meses[0]="Enero";
         meses[1]= "Febrero";
@@ -261,7 +263,7 @@ public class JFrameCliente extends javax.swing.JFrame {
             }
         });
 
-        jCBoxDiaSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        jCBoxDiaSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
         jCBoxDiaSalida.setBorder(null);
 
         jCBoxHabitacion.setBorder(null);
@@ -535,27 +537,12 @@ public class JFrameCliente extends javax.swing.JFrame {
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+                {}
             },
             new String [] {
-                "Fecha", "Habitación", "Total", "Cancelar"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane4.setViewportView(jTable3);
         if (jTable3.getColumnModel().getColumnCount() > 0) {
             jTable3.getColumnModel().getColumn(0).setResizable(false);
@@ -898,7 +885,7 @@ public class JFrameCliente extends javax.swing.JFrame {
     
     public void llenarFacturas(){
         modelTablaFactura.setRowCount(0);
-        modelTablaFactura = hotel.getFacturas(cliente, modelTablaFactura);
+        modelTablaFactura = hotel.getFacturas(cedula, modelTablaFactura);
         
         if(modelTablaFactura.getRowCount()==0){
             JOptionPane.showMessageDialog(this, "El cliente no tiene facturas", "Error", JOptionPane.ERROR_MESSAGE);
@@ -923,12 +910,15 @@ public class JFrameCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Marque el checkbox primero de terminos y condiciones", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             int num = jTable3.getSelectedRow();
-            String cliente,habitacion,inicio,fin;
-            cliente = modelTablaReservas.getValueAt(num, 0).toString();
-            habitacion = modelTablaReservas.getValueAt(num, 1).toString();
-            inicio = modelTablaReservas.getValueAt(num, 2).toString();
-            fin = modelTablaReservas.getValueAt(num, 3).toString();
-            hotel.cancelarReserva(cliente, habitacion, inicio,fin);
+            String cedula,habitacion,inicio,fin;
+            cedula = modelTablaReservas.getValueAt(num, 0).toString();
+            habitacion = modelTablaReservas.getValueAt(num, 2).toString();
+            inicio = modelTablaReservas.getValueAt(num, 3).toString();
+            fin = modelTablaReservas.getValueAt(num, 4).toString();
+            hotel.cancelarReserva(cedula, habitacion, inicio,fin);
+            
+
+            
             obtenerDatos();
         }
         
@@ -1024,7 +1014,7 @@ public class JFrameCliente extends javax.swing.JFrame {
 
     private void btnConfPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfPayActionPerformed
         if (!this.articulosagregados.isEmpty()) {
-            hotel.guardarFactura(this.cliente, this.articulosagregados, (float) this.compra_Total);
+            hotel.guardarFactura(cedula, this.articulosagregados, (float) this.compra_Total);
             hotel.guardarCambiosInventario(this.articulos,"ProductoUsuarios");
             for (int i = modeloTabla.getRowCount() - 1; i >= 0; i--) {
                 modeloTabla.removeRow(i);
@@ -1050,33 +1040,41 @@ public class JFrameCliente extends javax.swing.JFrame {
 
     private void jCBoxDiaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBoxDiaEntradaActionPerformed
         if (jComboBox1.getSelectedItem() == null || jCBoxDiaEntrada.getSelectedItem() == null) {
-            return;     
+            return;
         }
+
         String mes = jComboBox1.getSelectedItem().toString();
-        mesInicio = hotel.mesInt(mes);
+        mesInicio = hotel.mesInt(mes); 
         dias = hotel.getDias();
         jCBoxDiaSalida.removeAllItems();
-        int diaSeleccionado = Integer.parseInt(jCBoxDiaEntrada.getSelectedItem().toString())+1;
+        int diaSeleccionado = Integer.parseInt(jCBoxDiaEntrada.getSelectedItem().toString()) + 1;
         DefaultComboBoxModel<String> diaCombo = new DefaultComboBoxModel<>();
+
+        if (diaSeleccionado > dias.get(mesInicio)) {
+            diaSeleccionado = 1;
+            mesInicio++;
+
+            if (mesInicio > 12) {
+                mesInicio = 1;
+            }
+        }
 
         for (int i = diaSeleccionado; i <= dias.get(mesInicio); i++) {
             diaCombo.addElement(String.valueOf(i));
         }
+
         jCBoxDiaSalida.setModel(diaCombo);
+
     }//GEN-LAST:event_jCBoxDiaEntradaActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         modelTablaFactura.setRowCount(0);
         String mes = jComboBox3.getSelectedItem().toString();
         String dia = jComboBox4.getSelectedItem().toString();
-        String mesStr = hotel.mesInt(mes)+1+"";
-        int fin;
-        if(hotel.mesInt(mes)+1 > 9) fin = 5;
-        else fin = 4;
-        
-        modelTablaFactura = hotel.getFacturasPorFecha(cliente,mesStr,dia,fin,modelTablaFactura);
-        
-        if(modelTablaFactura.getRowCount()== 0){
+        String mesStr = String.format("%02d", hotel.mesInt(mes) + 1);
+        modelTablaFactura = hotel.getFacturasPorFecha(cedula, mesStr, dia, modelTablaFactura);
+
+        if (modelTablaFactura.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "No existe ninguna factura para esa fecha", "Error", JOptionPane.ERROR_MESSAGE);
         }
         jTable2.setModel(modelTablaFactura); 
@@ -1084,17 +1082,28 @@ public class JFrameCliente extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String mesInicio = jCBoxMes.getSelectedItem().toString();
-        String habitacion = jCBoxHabitacion.getSelectedItem().toString();
         int diaInicio = Integer.parseInt(jCBoxDiaEntrada.getSelectedItem().toString());
+        String habitacion = jCBoxHabitacion.getSelectedItem().toString();
         String mesFin = jComboBox1.getSelectedItem().toString();
         int diaFin = Integer.parseInt(jCBoxDiaSalida.getSelectedItem().toString());
-        if(diaInicio == diaFin && mesFin.equals(mesInicio)){
-            JOptionPane.showMessageDialog(this, "No se puede tener el reservar y salir el mismo dia", "Error", JOptionPane.ERROR_MESSAGE);
+        int mes = hotel.mesInt(mesInicio)+1;
+        LocalDate hoy = LocalDate.now();
+        int mesActual = hoy.getMonthValue();
+        int diaActual = hoy.getDayOfMonth();
+        
+        if(mes < mesActual || (mes == mesActual && diaInicio < diaActual)){
+            JOptionPane.showMessageDialog(null, "No puedes seleccionar una fecha anterior a hoy.", "Fecha Inválida", JOptionPane.WARNING_MESSAGE);
+
         }else{
-            hotel.modificarDisponibilidad(habitacion,mesInicio, diaInicio, mesFin, diaFin,true,cliente);
-            llenaDias();
-            jCBoxHabitacion.setSelectedIndex(0);
-            obtenerDatos();
+
+            if(diaInicio == diaFin && mesFin.equals(mesInicio)) {
+                JOptionPane.showMessageDialog(this, "No se puede tener el reservar y salir el mismo dia", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                hotel.modificarDisponibilidad(habitacion,mesInicio, diaInicio, mesFin, diaFin,true,cedula);
+                llenaDias();
+                jCBoxHabitacion.setSelectedIndex(0);
+                obtenerDatos();
+            }  
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

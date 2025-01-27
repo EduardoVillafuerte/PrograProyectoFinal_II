@@ -28,7 +28,7 @@ public class ConexionSQL {
     public String loginUsuario(String usuario, String contrasenia) {
         try {
             conexion = DriverManager.getConnection(URL, USER, PASS);
-            String sql = "select cedula from clientes where nombre = ? AND pass = ?";
+            String sql = "select cedula, nombre from clientes where nombre = ? AND pass = ?";
             stmt = conexion.prepareStatement(sql);
 
             stmt.setString(1, usuario);

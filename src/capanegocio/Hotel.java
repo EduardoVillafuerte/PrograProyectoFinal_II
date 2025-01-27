@@ -19,15 +19,17 @@ import java.util.Arrays;
 import java.util.Comparator;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Hotel {
 
     ConexionSQL cn = new ConexionSQL();
+    Fecha fecha = new Fecha();
+    private ResultSet rs;
     private List<Integer> dias;
     private List<Cliente> clientes;
     private List<Empleado> empleados;
     private List<Articulo> articulos;
-    private ResultSet rs;
+    private List<Factura> facturas;
+    private List<String> habitaciones;
     private static final String RUTA_HABITACIONES = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/src/capanegocio/habitaciones";
 
 
@@ -36,6 +38,8 @@ public class Hotel {
         clientes = new ArrayList<Cliente>();
         empleados = new ArrayList<Empleado>();
         articulos = new ArrayList<Articulo>();
+        habitaciones = new ArrayList<String>();
+        facturas = new ArrayList<Factura>();
     }
 
     public String autenticarUsuario(String usuario, String contrasenia){
@@ -50,7 +54,14 @@ public class Hotel {
             JOptionPane.showMessageDialog(null, "El cliente ya existe", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public DefaultTableModel visualizarClientes(DefaultTableModel modelTablaClientes ){
+    public DefaultTableModel visualizarClientes(DefaultTableModel modelTablaClientes ){   
+        for(Cliente cliente: obtenerClientes()){
+            modelTablaClientes.addRow(new Object[] {cliente.getNombre(), cliente.getApellido(), cliente.getCedula()});
+        }
+        return modelTablaClientes;
+    }
+
+    public List<Cliente> obtenerClientes(){
         try{
             rs = cn.obetenrDatos("clientes");
             while(rs.next()){
@@ -58,19 +69,16 @@ public class Hotel {
                 String cedula = rs.getString("cedula");
                 String apellido = rs.getString("apellido");
                 clientes.add(new Cliente(cedula,nombre,apellido));
-                modelTablaClientes.addRow(new Object[] {nombre,apellido,cedula});
             }
-
-            return modelTablaClientes;
+            return clientes;
         }catch(Exception e){
             System.out.println("Error: "+e.getMessage());
-            return modelTablaClientes;
+            return null;
         }
     }
-
+    
     public Cliente buscarCliente(String cedula){
         for(Cliente cliente: clientes){
-            System.out.println(cedula);
             if(cliente.getCedula().equals(cedula)){
                 return cliente;
             }
@@ -254,41 +262,10 @@ public class Hotel {
         };
     }
    
-    public static void guardarFactura(String nombreCliente, List<Articulo> articulosAgregados, float compraTotal) {
-        //Cliente clienteObj = buscarCliente(cliente);
-        Fecha fecha = new Fecha();
-        
-        StringBuilder factura = new StringBuilder();
-        factura.append("*****************************************************\n");
-        factura.append("                     FACTURA                         \n");
-        factura.append("*****************************************************\n");
-        factura.append("Cliente: ").append(nombreCliente).append("\n");
-        factura.append("Fecha: ").append(fecha.getHoy()).append("\n");
-        factura.append("\n");
-        factura.append("Detalle de compra:\n");
-        factura.append("-----------------------------------------------------\n");
-        factura.append(String.format("%-20s %-10s %-10s %-10s\n", "Producto", "Cantidad", "Precio", "Subtotal"));
-        factura.append("-----------------------------------------------------\n");
-
-        for(Articulo articulo: articulosAgregados){
-            double subtotal = articulo.getCantidadDisponible() * articulo.getPrecio();
-            factura.append(String.format("%-20s %-10d $%-9.2f $%-9.2f\n", articulo.getNombre(), articulo.getCantidadDisponible(),articulo.getPrecio(), subtotal));
-        }
-
-        factura.append("---------------------------------------------\n");
-        factura.append(String.format("Total: $%.2f\n", compraTotal));
-        factura.append("*****************************************************\n");
-        factura.append("              ¡Gracias por su compra!                \n");
-        factura.append("*****************************************************\n");
-        
+    public void guardarFactura(String cedula, List<Articulo> articulosAgregados, float compraTotal) {
+        Cliente cliente = buscarCliente(cedula);
         Number random = Math.round(Math.random()*1000);
-        
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("\"C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\factura_"+random+".txt"))) {
-            writer.write(factura.toString());
-            System.out.println("Factura guardada correctamente en 'factura.txt'.");
-        } catch (Exception e) {
-            System.err.println("Error al guardar la factura: " + e.getMessage());
-        }
+        cliente.agregarFactura(new Factura(fecha.getHoy(), random, compraTotal, articulosAgregados ));
     }
     
     public List<Integer> getDias(){
@@ -304,83 +281,63 @@ public class Hotel {
         return null;
     }
     
-    public DefaultComboBoxModel<String> getHabitaciones(){
-        List<String> habitaciones = new ArrayList<>();
-        String rutaCarpeta = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/src/capanegocio/habitaciones/";
+    public DefaultTableModel getFacturas(String cedula,DefaultTableModel modelTablaFactura){
+        try{
+            for(Factura factura : obtenerTodasFacturas(cedula)){
+                modelTablaFactura.addRow( new Object[] {factura.getFecha(),factura.getnombre(),factura.getTotalStr()});
+            }
+        }catch(Exception e){System.out.println("No hay facturas "+e.getMessage());}
+        return modelTablaFactura;
+    }
+    
+    public List<Factura> obtenerTodasFacturas(String cedula){
+        String rutaCarpeta = "C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\facturas";
         File carpeta = new File(rutaCarpeta);
         if (carpeta.exists() && carpeta.isDirectory()) {
             File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith(".txt"));
             if (archivos != null) {
                 for (File archivo : archivos) {
-                    String nombreSinExtension = archivo.getName().replaceFirst("\\.txt$", "");
-                    habitaciones.add(nombreSinExtension);
+                    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+                        String linea;
+                        String cedulaCliente = "";
+                        String fecha = "";
+                        String valorTotal = "";
+                        while ((linea = br.readLine()) != null) {
+                            if (linea.startsWith("Cedula:")) {
+                                cedulaCliente = linea.replace("Cedula: ", "").trim();
+                            } else if (linea.startsWith("Fecha:")) {
+                                fecha = linea.replace("Fecha: ", "").trim();
+                           } else if (linea.startsWith("Total: $")) {
+                                valorTotal = linea.replace("Total: $", "").trim();
+                            }
+                        }
+                        String nombreSinExtension = archivo.getName().replaceFirst("\\.txt$", "");
+                        if(cedula.equals(cedulaCliente))
+                            facturas.add(new Factura(fecha,nombreSinExtension,valorTotal));
+                    } catch (Exception e) {
+                        System.err.println("Error leyendo el archivo " + archivo.getName() + ": " + e.getMessage());
+                    }
                 }
             }
-            
-            DefaultComboBoxModel<String> modelTablaHabitaciones = new DefaultComboBoxModel<>();
-            for(String habitacion : habitaciones){
-                modelTablaHabitaciones.addElement(habitacion);
-            }
-            
-            return modelTablaHabitaciones;
+            return facturas;
         } else {
             System.err.println("La ruta especificada no es una carpeta válida.");
         }
         return null;
     }
     
-    public DefaultTableModel getFacturas(String cliente,DefaultTableModel modelTablaFactura){
-        try{
-            for(Factura factura : obtenerTodasFcturas(cliente)){
-                modelTablaFactura.addRow( new Object[] {factura.getFechaEmision(),factura.getNumFactura(),factura.getMontoTotal()});
-            }
-        }catch(Exception e){System.out.println("No hay facturas "+e.getMessage());}
-        return modelTablaFactura;
-    }
-    
-    public List<Factura> obtenerTodasFcturas(String cliente){
-                
-        String rutaCarpeta = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/";
-        File carpeta = new File(rutaCarpeta);
-        List<Factura> facturas = new ArrayList<>();
-        //if (carpeta.exists() && carpeta.isDirectory()) {
-            //File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith(".txt"));
-            //if (archivos != null) {
-                //for (File archivo : archivos) {
-                    //try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                    //    String linea;
-                    //    String nombreCliente = "";
-                    //    String fecha = "";
-                    //    String valorTotal = "";
-                    //    while ((linea = br.readLine()) != null) {
-                    //        if (linea.startsWith("Cliente:")) {
-                    //            nombreCliente = linea.replace("Cliente:", "").trim();
-                    //        } else if (linea.startsWith("Fecha:")) {
-                    //            fecha = linea.replace("Fecha:", "").trim();
-                    //        } else if (linea.startsWith("Total: $")) {
-                    //            valorTotal = linea.replace("Total: $", "").trim();
-                    //        }
-                    //    }
-                    //    String nombreSinExtension = archivo.getName().replaceFirst("\\.txt$", "");
-                    //    if(cliente.equals(nombreCliente))
-                            //facturas.add(new Factura(fecha, nombreSinExtension,valorTotal));
-                    //} catch (Exception e) {
-                    //    System.err.println("Error leyendo el archivo " + archivo.getName() + ": " + e.getMessage());
-                    //}
-               //}
-            //}
-            //return facturas;
-        //} else {
-        //    System.err.println("La ruta especificada no es una carpeta válida.");
-        //}
-        return null;
-    }
-    
-    public DefaultTableModel getFacturasPorFecha(String cliente, String mesStr, String dia, int fin, DefaultTableModel modelTablaFactura){
-        for(Factura facturas : obtenerTodasFcturas(cliente)){
-            if(mesStr.equals(facturas.getFechaEmision().substring(3,fin))){
-                if(dia.equals(facturas.getFechaEmision().substring(0,2))){
-                    modelTablaFactura.addRow( new Object[] {facturas.getFechaEmision(),facturas.getNumFactura(),facturas.getMontoTotal()});                
+    public DefaultTableModel getFacturasPorFecha(String cedula, String mesStr, String dia, DefaultTableModel modelTablaFactura){
+        for (Factura facturas : obtenerTodasFacturas(cedula)) {
+            String mesFactura = facturas.getFecha().substring(3, 5);
+            String diaFactura = facturas.getFecha().substring(0, 2);
+
+            if (mesStr.equals(mesFactura)) {
+                if (dia.equals(diaFactura)) {
+                    modelTablaFactura.addRow(new Object[] {
+                        facturas.getFecha(),
+                        facturas.getnombre(),
+                        facturas.getTotalStr()
+                    });
                 }
             }    
         }
@@ -395,11 +352,11 @@ public class Hotel {
         modificarDisponibilidad(habitacion, mesInicio, diaInicio, mesFin, diaFin, true, cliente);
     }
 
-    public void cancelar(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, String cliente) {
-        modificarDisponibilidad(habitacion, mesInicio, diaInicio, mesFin, diaFin, false, cliente);
+    public void cancelar(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, String cedula) {
+        modificarDisponibilidad(habitacion, mesInicio, diaInicio, mesFin, diaFin, false, cedula);
     }
     
-    public void modificarDisponibilidad(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, boolean esReserva, String cliente) {
+    public void modificarDisponibilidad(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, boolean esReserva, String cedula) {
         List<String> meses = obtenerMesesOrdenados();
         int indiceMesInicio = meses.indexOf(mesInicio);
         int indiceMesFin = meses.indexOf(mesFin);
@@ -462,7 +419,11 @@ public class Hotel {
                 Files.write(archivo.toPath(), nuevasLineas);
 
                 if (esReserva) {
-                    guardarReserva(cliente, habitacion, mesInicio, diaInicio, mesFin, diaFin, totalDias);
+                    if(totalDias < 0){
+                        JOptionPane.showMessageDialog(null, "Error, compruebe los meses y los dias", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    guardarReserva(cedula, habitacion, mesInicio, diaInicio, mesFin, diaFin, totalDias);
                     JOptionPane.showMessageDialog(null, "Reserva realizada con éxito para la habitación: " + habitacion, "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "Cancelación realizada con éxito para la habitación: " + habitacion, "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -475,23 +436,48 @@ public class Hotel {
         }
     }
     
-    public DefaultTableModel getReservas(DefaultTableModel modelTablaReservas,String cliente){
+    public DefaultComboBoxModel<String> getHabitaciones(){
+        String rutaCarpeta = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/src/capanegocio/habitaciones/";
+        File carpeta = new File(rutaCarpeta);
+        if (carpeta.exists() && carpeta.isDirectory()) {
+            File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith(".txt"));
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    String nombreSinExtension = archivo.getName().replaceFirst("\\.txt$", "");
+                    habitaciones.add(nombreSinExtension);
+                }
+            }
+            
+            DefaultComboBoxModel<String> modelTablaHabitaciones = new DefaultComboBoxModel<>();
+            for(String habitacion : habitaciones){
+                modelTablaHabitaciones.addElement(habitacion);
+            }
+            
+            return modelTablaHabitaciones;
+        } else {
+            System.err.println("La ruta especificada no es una carpeta válida.");
+        }
+        return null;
+    }
+    
+    public DefaultTableModel getReservas(DefaultTableModel modelTablaReservas,String cedula){
         File carpeta = new File("C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\habitaciones\\reservas");
         if (carpeta.exists() && carpeta.isDirectory()) {
-            File[] archivos = carpeta.listFiles((dir, name) -> name.startsWith("reservas" + cliente) && name.endsWith(".txt"));
+            File[] archivos = carpeta.listFiles((dir, name) -> name.startsWith("reservas" + cedula) && name.endsWith(".txt"));
             if (archivos != null) {
                 for (File archivo : archivos) {
                     try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
                         String linea;
                         while ((linea = br.readLine()) != null) {
-                            if (linea.startsWith("Cliente: " + cliente)) {
+                            if (linea.startsWith("Cedula: " + cedula)) {
                                 String[] partes = linea.split(", ");
                                 String habitacion = partes[1].split(": ")[1];
                                 String inicio = partes[2].split(": ")[1];
                                 String fin = partes[3].split(": ")[1];
                                 int totalDias = Integer.parseInt(partes[4].split(": ")[1]);
                                 String fechaReserva = partes[5].split(": ")[1];
-                                modelTablaReservas.addRow(new Object[] {cliente,habitacion,inicio ,fin,fechaReserva,totalDias});
+                                String cliente = buscarCliente(cedula).getNombre();
+                                modelTablaReservas.addRow(new Object[] {cedula, cliente, habitacion,inicio ,fin,fechaReserva,totalDias});
                             }
                         }
                     } catch (IOException e) {
@@ -505,69 +491,55 @@ public class Hotel {
         return modelTablaReservas;
     }
 
-    public void cancelarReserva(String cliente, String habitacion, String fechaInicio, String fechaFin) {
+    public void cancelarReserva(String cedula, String habitacion, String fechaInicio, String fechaFin) {
+        System.out.println(fechaInicio);
+        System.out.println(fechaFin);
         String[] partesInicio = fechaInicio.split(" ");
         String mesInicio = partesInicio[0];
         int diaInicio = Integer.parseInt(partesInicio[1]);
         String[] partesFin = fechaFin.split(" ");
         String mesFin = partesFin[0];
         int diaFin = Integer.parseInt(partesFin[1]);
-        eliminarReserva(cliente, habitacion, mesInicio + " " + diaInicio);
-        cancelar(habitacion, mesInicio, diaInicio, mesFin, diaFin, cliente);
+        eliminarReserva(cedula, habitacion, mesInicio + " " + diaInicio);
+        System.out.println("123");
+        //cancelar(habitacion, mesInicio, diaInicio, mesFin, diaFin, cedula);
     }
 
-    public void eliminarReserva(String cliente, String habitacion, String diaInicio) {
-        File carpeta = new File(RUTA_HABITACIONES+"/reservas/");
+    public void eliminarReserva(String cedula, String habitacion, String inicioReserva) {
+        File archivoReservas = new File("C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\habitaciones\\reservas\\reservas" + cedula + ".txt");
+        if (archivoReservas.exists()) {
+            try {
+                List<String> lineas = Files.readAllLines(archivoReservas.toPath());
+                List<String> nuevasLineas = new ArrayList<>();
+                boolean eliminada = false;
 
-        if (carpeta.exists() && carpeta.isDirectory()) {
-            File[] archivos = carpeta.listFiles((dir, name) -> name.startsWith("reservas" + cliente) && name.endsWith(".txt"));
-
-            if (archivos != null) {
-                for (File archivo : archivos) {
-                    try {
-                        List<String> nuevasLineas = new ArrayList<>();
-                        boolean eliminado = false;
-
-                        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                            String linea;
-                            while ((linea = br.readLine()) != null) {
-                                if (linea.startsWith("Cliente: " + cliente) &&
-                                    linea.contains("Habitación: " + habitacion) &&
-                                    linea.contains("Inicio: " + diaInicio)) {
-                                    eliminado = true;
-                                } else {
-                                    nuevasLineas.add(linea);
-                                }
-                            }
-                        }
-
-                        if (eliminado) {
-                            try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
-                                for (String linea : nuevasLineas) {
-                                    bw.write(linea);
-                                    bw.newLine();
-                                }
-                                System.out.println("Línea eliminada del archivo: " + archivo.getName());
-                            }
-                        } else {
-                            System.out.println("No se encontró la línea en el archivo: " + archivo.getName());
-                        }
-
-                    } catch (IOException e) {
-                        System.err.println("Error procesando archivo: " + archivo.getName() + " - " + e.getMessage());
+                for (String linea : lineas) {
+                    if (!linea.contains("Habitación: " + habitacion) || !linea.contains("Inicio: " + inicioReserva)) {
+                        nuevasLineas.add(linea);
+                    } else {
+                        eliminada = true;
                     }
                 }
+
+                if (eliminada) {
+                    Files.write(archivoReservas.toPath(), nuevasLineas);
+                    System.out.println("Reserva eliminada exitosamente.");
+                } else {
+                    System.err.println("Reserva no encontrada para eliminar.");
+                }
+            } catch (IOException e) {
+                System.err.println("Error al eliminar la reserva: " + e.getMessage());
             }
         } else {
-            System.err.println("La ruta especificada no es una carpeta válida.");
+            System.err.println("El archivo de reservas no existe para el cliente: " + cedula);
         }
     }
-    
+
     public void guardarReserva(String cliente, String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, int totalDias) {
         File archivoReservas = new File(RUTA_HABITACIONES+"/reservas/", "reservas"+cliente+habitacion+".txt");
         Fecha fecha = new Fecha();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoReservas, true))) {
-            writer.write("Cliente: " + cliente);
+            writer.write("Cedula: " + cliente);
             writer.write(", Habitación: " + habitacion);
             writer.write(", Inicio: " + mesInicio + " " + diaInicio);
             writer.write(", Fin: " + mesFin + " " + diaFin);

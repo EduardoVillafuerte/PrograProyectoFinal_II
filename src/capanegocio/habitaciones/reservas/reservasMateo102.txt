@@ -1,2 +1,0 @@
-Cliente: Mateo, Habitación: 102, Inicio: Enero 6, Fin: Enero 11, Total de días: 6, Reserva: 22/1 /2025
-Cliente: Mateo, Habitación: 102, Inicio: Febrero 5, Fin: Febrero 7, Total de días: 3, Reserva: 22/1 /2025

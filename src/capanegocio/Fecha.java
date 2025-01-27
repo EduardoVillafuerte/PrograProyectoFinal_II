@@ -21,9 +21,9 @@ public class Fecha {
     public String getHoy(){
         GregorianCalendar gc = new GregorianCalendar();
         int dia = gc.get(gc.DAY_OF_MONTH);
-        int mes = gc.get(gc.MONTH) + 1;
+        String mesStr = String.format("%02d", (gc.get(gc.MONTH) + 1));
         int año = gc.get(gc.YEAR);
-        return String.format("%-2d/%-2d/%-4d",dia,mes,año);
+        return String.format("%-2d/%-2s/%-4d",dia,mesStr,año);
     }
 
 
