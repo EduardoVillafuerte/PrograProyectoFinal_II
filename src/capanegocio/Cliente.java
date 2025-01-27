@@ -2,7 +2,6 @@ package capanegocio;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import static java.lang.Math.random;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +9,15 @@ public class Cliente extends Persona{
 
     private List<Factura> facturas = new ArrayList<Factura>();
     private List<Reserva> reservas = new ArrayList<Reserva>();
+    private String pass;
+    private String correo;
+    private String celular;
     
-    public Cliente(String cedula, String nombre, String apellido) {
+    public Cliente(String cedula, String nombre, String apellido, String pass, String correo, String celular) {
         super(cedula, nombre, apellido);
+        this.pass = pass;
+        this.correo = correo;
+        this.celular = celular;
     }
     
     public Cliente(){}
@@ -24,6 +29,18 @@ public class Cliente extends Persona{
             }
         }
         return null;
+    }
+    
+    public String getPass(){
+        return this.pass;
+    }
+    
+    public String getCorreo(){
+        return this.correo;
+    }
+    
+    public String getCelular(){
+        return this.celular;
     }
     
     public void agregarFactura(Factura factura){

@@ -52,11 +52,14 @@ public class ConexionSQL {
             try{
                 
                 if(cliente != null){
-                    sql = "insert into " + tabla +" (cedula,nombre,apellido) values (?,?,?)";
+                    sql = "insert into " + tabla +" (cedula,nombre,apellido,pass,correo,celular) values (?,?,?,?,?,?)";
                     PreparedStatement stmtq = conexion.prepareStatement(sql);
                     stmtq.setString(1, cliente.getCedula());
                     stmtq.setString(2, cliente.getNombre());
                     stmtq.setString(3, cliente.getApellido());
+                    stmtq.setString(4, cliente.getPass());
+                    stmtq.setString(5, cliente.getCorreo());
+                    stmtq.setString(6, cliente.getCelular());       
                     int filasAfectadas = stmtq.executeUpdate();
                     if (filasAfectadas > 0) {
                         System.out.println("La tabla ha sido actualizada correctamente.");

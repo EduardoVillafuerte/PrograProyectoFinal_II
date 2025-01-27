@@ -63,16 +63,15 @@ public class JFrameCliente extends javax.swing.JFrame {
         
         modelTablaReservas = new DefaultTableModel(
         new Object[]{"Cedula","Cliente","Habitacion", "Fecha Inicio", "Fecha Fin", "Fecha Reserva","Numero de dias"}, 0);
-
         jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));
+        
+        modelTablaFactura = new DefaultTableModel(
+        new Object[]{"Fecha", "NumFactura", "Total"}, 0);
+        jTable2.setModel(hotel.getFacturas(cedula,modelTablaFactura));  
         
         modeloTabla = new DefaultTableModel(
         new Object[]{"Nombre", "Cantidad", "Precio"}, 0);
         jTable1.setModel(modeloTabla);  
-
-        modelTablaFactura = new DefaultTableModel(
-        new Object[]{"Fecha", "NumFactura", "Total"}, 0);
-        jTable2.setModel(hotel.getFacturas(cedula,modelTablaFactura));  
 
         meses[0]="Enero";
         meses[1]= "Febrero";
@@ -916,9 +915,6 @@ public class JFrameCliente extends javax.swing.JFrame {
             inicio = modelTablaReservas.getValueAt(num, 3).toString();
             fin = modelTablaReservas.getValueAt(num, 4).toString();
             hotel.cancelarReserva(cedula, habitacion, inicio,fin);
-            
-
-            
             obtenerDatos();
         }
         

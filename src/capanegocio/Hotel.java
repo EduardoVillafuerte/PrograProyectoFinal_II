@@ -68,7 +68,10 @@ public class Hotel {
                 String nombre = rs.getString("nombre");
                 String cedula = rs.getString("cedula");
                 String apellido = rs.getString("apellido");
-                clientes.add(new Cliente(cedula,nombre,apellido));
+                String pass = "";
+                String correo = rs.getString("correo");
+                String celular = rs.getString("celular");
+                clientes.add(new Cliente(cedula,nombre,apellido,pass,correo,celular));
             }
             return clientes;
         }catch(Exception e){
