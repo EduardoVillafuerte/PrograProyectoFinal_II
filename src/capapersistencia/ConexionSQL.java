@@ -25,17 +25,19 @@ public class ConexionSQL {
     Statement stmtc = null;
     ResultSet rs = null;
 
-    public ResultSet loginUsuario(String usuario, String contrasenia) {
+    public String loginUsuario(String usuario, String contrasenia) {
         try {
             conexion = DriverManager.getConnection(URL, USER, PASS);
-            String sql = "SELECT rol,[user] FROM Users WHERE [user] = ? AND password = ?";
+            String sql = "select cedula from clientes where nombre = ? AND pass = ?";
             stmt = conexion.prepareStatement(sql);
 
             stmt.setString(1, usuario);
             stmt.setString(2, contrasenia);
-
             rs = stmt.executeQuery();
-            return rs;
+            if(rs.next()){
+                return rs.getString("cedula");
+            }
+            return null;
         } catch (SQLException e) {
             System.out.println("Error al conectar o ejecutar la consulta: " + e.getMessage());
         }

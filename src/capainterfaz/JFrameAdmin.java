@@ -5,12 +5,9 @@
 package capainterfaz;
 
 import capanegocio.Articulo;
-import capanegocio.Categoria;
 import capanegocio.Cliente;
 import capanegocio.Empleado;
 import capanegocio.Hotel;
-import capanegocio.Persona;
-import capanegocio.TipoAlerta;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -26,7 +23,6 @@ import javax.swing.table.TableColumnModel;
 public class JFrameAdmin extends javax.swing.JFrame {
 
     Hotel hotel;
-    String admin;
     private DefaultTableModel modelTablaClientes;
     private DefaultTableModel modelTablaArticulos;
     private DefaultTableModel modelTablaEmpleados;
@@ -36,9 +32,8 @@ public class JFrameAdmin extends javax.swing.JFrame {
 
 
     
-    public JFrameAdmin(Hotel hotel, String admin) {
+    public JFrameAdmin(Hotel hotel) {
         this.hotel = hotel;
-        this.admin = admin;
         this.meses = new String[12];
         initComponents();
         obtenerDatos();
@@ -152,22 +147,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
         btnBuscarArticuloAdmin = new javax.swing.JButton();
         jCBCategoriaArticulo = new javax.swing.JComboBox<>();
         btnAgregarArticulo1 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        btnAsignarRecepcion = new javax.swing.JButton();
-        txtNombreEmpleadoAsignarTarea = new javax.swing.JTextField();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTableVisualizarAsignacion = new javax.swing.JTable();
-        txtNombreAsignarTareaConserje = new javax.swing.JTextField();
-        btnAsignarConserje = new javax.swing.JButton();
-        jCBTareaRecepcion = new javax.swing.JComboBox<>();
-        jSeparator5 = new javax.swing.JSeparator();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jCBTareaConserje = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -667,7 +646,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
                         .addComponent(jLabel15)
                         .addGap(31, 31, 31)
                         .addComponent(txtNombreArticuloBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
+                        .addGap(111, 111, 111)
                         .addComponent(btnBuscarArticuloAdmin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAgregarArticulo1)
@@ -703,159 +682,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
         );
 
         jTabbedPane.addTab("Articulo", jPanel4);
-
-        jPanel5.setBackground(new java.awt.Color(230, 239, 204));
-
-        jLabel29.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel29.setText("+ Asignar Tarea Recepción");
-
-        jLabel17.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
-        jLabel17.setText("Nombre Empleado");
-
-        jLabel18.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
-        jLabel18.setText("Tarea");
-
-        btnAsignarRecepcion.setBackground(new java.awt.Color(0, 102, 204));
-        btnAsignarRecepcion.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
-        btnAsignarRecepcion.setForeground(new java.awt.Color(255, 255, 255));
-        btnAsignarRecepcion.setText("ASIGNAR");
-        btnAsignarRecepcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAsignarRecepcionActionPerformed(evt);
-            }
-        });
-
-        jTableVisualizarAsignacion.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null}
-            },
-            new String [] {
-                "Nombre Empleado", "Tarea Asignada", "Estado"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(jTableVisualizarAsignacion);
-        if (jTableVisualizarAsignacion.getColumnModel().getColumnCount() > 0) {
-            jTableVisualizarAsignacion.getColumnModel().getColumn(0).setResizable(false);
-            jTableVisualizarAsignacion.getColumnModel().getColumn(1).setResizable(false);
-            jTableVisualizarAsignacion.getColumnModel().getColumn(2).setResizable(false);
-        }
-
-        txtNombreAsignarTareaConserje.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreAsignarTareaConserjeActionPerformed(evt);
-            }
-        });
-
-        btnAsignarConserje.setBackground(new java.awt.Color(0, 102, 102));
-        btnAsignarConserje.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
-        btnAsignarConserje.setForeground(new java.awt.Color(255, 255, 255));
-        btnAsignarConserje.setText("ASIGNAR");
-
-        jCBTareaRecepcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Atención al cliente y registro de visitantes", "Gestión de correspondencia y llamadas telefónicas", "Organización de agendas y citas de gerentes", "Gestión de solicitudes de acceso a áreas restringidas", "Coordinación de salas de reuniones y eventos." }));
-        jCBTareaRecepcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCBTareaRecepcionActionPerformed(evt);
-            }
-        });
-
-        jSeparator5.setForeground(new java.awt.Color(255, 255, 255));
-
-        jLabel19.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel19.setText("+ Asignar Tarea Conserje");
-
-        jLabel20.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
-        jLabel20.setText("Nombre Empleado");
-
-        jLabel21.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
-        jLabel21.setText("Tarea");
-
-        jCBTareaConserje.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Limpieza de oficinas del primer piso", "Mantenimiento de áreas comunes (pasillos y baños)", "Gestión de residuos y reciclaje", "Limpieza de la cafetería y áreas de descanso", "Supervisión de suministros de limpieza y reparaciones menores" }));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel29)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel19)
-                            .addComponent(btnAsignarConserje, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator5)
-                            .addComponent(jLabel18)
-                            .addComponent(jLabel17)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(txtNombreEmpleadoAsignarTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(114, 114, 114)
-                                .addComponent(btnAsignarRecepcion))
-                            .addComponent(jLabel21)
-                            .addComponent(txtNombreAsignarTareaConserje, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCBTareaRecepcion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCBTareaConserje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(104, 104, 104))))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel29)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNombreEmpleadoAsignarTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAsignarRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCBTareaRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                        .addComponent(jLabel20)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNombreAsignarTareaConserje, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAsignarConserje, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel21)
-                        .addGap(18, 18, 18)
-                        .addComponent(jCBTareaConserje, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(113, 113, 113))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-
-        jTabbedPane.addTab("Asignación Tarea", jPanel5);
 
         jPanel6.setBackground(new java.awt.Color(218, 219, 249));
 
@@ -1068,11 +894,16 @@ public class JFrameAdmin extends javax.swing.JFrame {
         if(nombre.isEmpty()||apellido.isEmpty()||cedula.isEmpty()){
             JOptionPane.showMessageDialog(null, "Ingrese la informacion en todos los espacios", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            hotel.agregarCliente(cliente);
-            txtCedulaCliente.setText("");
-            txtApellidoCliente.setText("");
-            txtNombreCliente.setText("");
-            obtenerDatos();
+            if(validarCedula(cedula)){
+                hotel.agregarCliente(cliente);
+                txtCedulaCliente.setText("");
+                txtApellidoCliente.setText("");
+                txtNombreCliente.setText("");
+                obtenerDatos();
+            }else{
+                JOptionPane.showMessageDialog(null, "Ingrese una cedula correcta", "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
         }
     }//GEN-LAST:event_btnAgregarClienteActionPerformed
 
@@ -1088,11 +919,16 @@ public class JFrameAdmin extends javax.swing.JFrame {
         if(nombre.isEmpty()||apellido.isEmpty()||cedula.isEmpty()){
             JOptionPane.showMessageDialog(null, "Ingrese la informacion en todos los espacios", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            hotel.agregarEmpleado(cedula,nombre,apellido,cargo);
-            obtenerDatos();
-            txtNombreEmpleado.setText("");
-            txtApellidoEmpleado.setText("");
-            txtCedulaEmpleado.setText("");
+            if(validarCedula(cedula)){
+                hotel.agregarEmpleado(cedula,nombre,apellido,cargo);
+                obtenerDatos();
+                txtNombreEmpleado.setText("");
+                txtApellidoEmpleado.setText("");
+                txtCedulaEmpleado.setText("");
+            }else{
+                JOptionPane.showMessageDialog(null, "Ingrese una cedula correcta", "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
         }
     }//GEN-LAST:event_btnAgregarEmpleadoActionPerformed
 
@@ -1110,10 +946,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
         if(nombre.isEmpty()||cantidad < 1)
             JOptionPane.showMessageDialog(null, "Ingrese la informacion en todos los espacios o no ingrese numeros negativos", "Error", JOptionPane.ERROR_MESSAGE);
         else{
-            System.out.println(nombre);
-            System.out.println(categoria);
-            System.out.println(cantidad);
-            hotel.agregarArticulo(nombre, 0, categoria, cantidad);
+            hotel.agregarArticulo(nombre.toLowerCase(), 0, categoria, cantidad);
             obtenerDatos();
         }
 
@@ -1122,18 +955,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private void txtNombreArticuloBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreArticuloBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreArticuloBuscarActionPerformed
-
-    private void btnAsignarRecepcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarRecepcionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAsignarRecepcionActionPerformed
-
-    private void txtNombreAsignarTareaConserjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreAsignarTareaConserjeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreAsignarTareaConserjeActionPerformed
-
-    private void jCBTareaRecepcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTareaRecepcionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCBTareaRecepcionActionPerformed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         Cliente cliente = hotel.buscarCliente(txtCedulaBuscarCliente.getText());
@@ -1245,7 +1066,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private void btnBuscarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarEmpleadoActionPerformed
         Empleado empleado = hotel.buscarEmpleado(txtCedulaBuscarEmpleado.getText());
         if(empleado == null)
-            JOptionPane.showMessageDialog(null, "No existe ese cliente", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No existe ese empleado", "Error", JOptionPane.ERROR_MESSAGE);
         else{
             JOptionPane.showMessageDialog(null,"Nombre: "+empleado.getNombre()+"\nApellido: "+empleado.getApellido()+"\nCedula: "+empleado.getCedula());
             txtCedulaBuscarEmpleado.setText("");
@@ -1268,7 +1089,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
 
     private void btnBuscarArticuloAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarArticuloAdminActionPerformed
         String articulo = txtNombreArticuloBuscar.getText();
-        if(articulo == null)
+        if(articulo.equals(""))
             JOptionPane.showMessageDialog(null, "No existe ese cliente", "Error", JOptionPane.ERROR_MESSAGE);
         else{
             Articulo buscado = hotel.buscarArticulo(articulo);
@@ -1286,7 +1107,40 @@ public class JFrameAdmin extends javax.swing.JFrame {
         hotel.eliminarArticulo(nombre);
         obtenerDatos();
     }//GEN-LAST:event_btnAgregarArticulo1ActionPerformed
+    
+    public static boolean validarCedula(String cedula) {
+        if (cedula == null || cedula.length() != 10 || !cedula.matches("\\d+")) {
+            return false;
+        }
 
+        int provincia = Integer.parseInt(cedula.substring(0, 2));
+        if (provincia < 1 || provincia > 24) {
+            return false;
+        }
+
+        int tercerDigito = Integer.parseInt(cedula.substring(2, 3));
+        if (tercerDigito >= 6) {
+            return false;
+        }
+
+        int[] coeficientes = {2, 1, 2, 1, 2, 1, 2, 1, 2};
+        int suma = 0;
+
+        for (int i = 0; i < coeficientes.length; i++) {
+            int producto = coeficientes[i] * Character.getNumericValue(cedula.charAt(i));
+            if (producto >= 10) {
+                producto -= 9;
+            }
+            suma += producto;
+        }
+
+        int digitoVerificador = Integer.parseInt(cedula.substring(9, 10));
+        int residuo = suma % 10;
+        int resultado = residuo == 0 ? 0 : 10 - residuo;
+
+        return resultado == digitoVerificador;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -1330,8 +1184,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarCliente1;
     private javax.swing.JButton btnAgregarEmpleado;
     private javax.swing.JButton btnAgregarEmpleado1;
-    private javax.swing.JButton btnAsignarConserje;
-    private javax.swing.JButton btnAsignarRecepcion;
     private javax.swing.JButton btnBuscarArticuloAdmin;
     private javax.swing.JButton btnBuscarCliente;
     private javax.swing.JButton btnBuscarEmpleado;
@@ -1345,20 +1197,13 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jCBHabitacionReserva;
     private javax.swing.JComboBox<String> jCBMesEntradaReserva;
     private javax.swing.JComboBox<String> jCBMesSalidaReserva;
-    private javax.swing.JComboBox<String> jCBTareaConserje;
-    private javax.swing.JComboBox<String> jCBTareaRecepcion;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
@@ -1366,7 +1211,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
@@ -1383,22 +1227,18 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTable jTableArticulo;
     private javax.swing.JTable jTableClientes;
     private javax.swing.JTable jTableEmpleados;
-    private javax.swing.JTable jTableVisualizarAsignacion;
     private javax.swing.JTable jTableVisualizarReserva;
     private javax.swing.JTextField txtApellidoCliente;
     private javax.swing.JTextField txtApellidoEmpleado;
@@ -1410,10 +1250,8 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField txtCedulaReserva;
     private javax.swing.JTextField txtNombreArticulo;
     private javax.swing.JTextField txtNombreArticuloBuscar;
-    private javax.swing.JTextField txtNombreAsignarTareaConserje;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNombreEmpleado;
-    private javax.swing.JTextField txtNombreEmpleadoAsignarTarea;
     private javax.swing.JTextField txtNombreReserva;
     // End of variables declaration//GEN-END:variables
 }

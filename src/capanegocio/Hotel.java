@@ -38,7 +38,7 @@ public class Hotel {
         articulos = new ArrayList<Articulo>();
     }
 
-    public ResultSet autenticarUsuario(String usuario, String contrasenia){
+    public String autenticarUsuario(String usuario, String contrasenia){
         return cn.loginUsuario(usuario,contrasenia);
     }
 
@@ -79,7 +79,13 @@ public class Hotel {
     }
 
     public void eliminarCliente(String cedula){
-        cn.modificarTablaPersonas(cedula, "clientes");
+        for (Cliente c : clientes){
+            if(c.getCedula().equals(cedula)) {
+                clientes.remove(c);
+                cn.modificarTablaPersonas(cedula, "clientes");
+                return;
+            }
+        }
     }
 
     public void agregarEmpleado(String cedula, String nombre, String apellido, String cargo){
@@ -127,7 +133,13 @@ public class Hotel {
     }
 
     public void eliminarEmpleado(String cedula){
-        cn.modificarTablaPersonas(cedula, "empleados");        
+        for (Empleado e : empleados){
+            if(e.getCedula().equals(cedula)) {
+                cn.modificarTablaPersonas(cedula, "empleados");        
+                empleados.remove(e);
+                return;
+            }
+        }
     }
 
     public DefaultTableModel visualizarArticulos(DefaultTableModel modelTablaArticulos){
@@ -171,7 +183,13 @@ public class Hotel {
     }
 
     public void eliminarArticulo(String nombre) {
-        cn.eliminarArticulo(nombre, "ProductoEmpleados");
+        for (Articulo a : articulos){
+            if(a.getNombre().equals(nombre)) {
+                cn.eliminarArticulo(nombre, "ProductoEmpleados");
+                articulos.remove(a);
+                return;
+            }
+        }
     }
 
     public TipoAlerta alertas(int cantidad){
@@ -237,6 +255,7 @@ public class Hotel {
     }
    
     public static void guardarFactura(String nombreCliente, List<Articulo> articulosAgregados, float compraTotal) {
+        //Cliente clienteObj = buscarCliente(cliente);
         Fecha fecha = new Fecha();
         
         StringBuilder factura = new StringBuilder();
@@ -264,7 +283,7 @@ public class Hotel {
         
         Number random = Math.round(Math.random()*1000);
         
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("factura_"+random+".txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("\"C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\factura_"+random+".txt"))) {
             writer.write(factura.toString());
             System.out.println("Factura guardada correctamente en 'factura.txt'.");
         } catch (Exception e) {
@@ -324,37 +343,36 @@ public class Hotel {
         String rutaCarpeta = "C:/Programacion UDLA/Programacion II/PrograProyectoFinal_II/";
         File carpeta = new File(rutaCarpeta);
         List<Factura> facturas = new ArrayList<>();
-        if (carpeta.exists() && carpeta.isDirectory()) {
-            File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith(".txt"));
-            if (archivos != null) {
-                for (File archivo : archivos) {
-                    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                        String linea;
-                        String nombreCliente = "";
-                        String fecha = "";
-                        String valorTotal = "";
-
-                        while ((linea = br.readLine()) != null) {
-                            if (linea.startsWith("Cliente:")) {
-                                nombreCliente = linea.replace("Cliente:", "").trim();
-                            } else if (linea.startsWith("Fecha:")) {
-                                fecha = linea.replace("Fecha:", "").trim();
-                            } else if (linea.startsWith("Total: $")) {
-                                valorTotal = linea.replace("Total: $", "").trim();
-                            }
-                        }
-                        String nombreSinExtension = archivo.getName().replaceFirst("\\.txt$", "");
-                        if(cliente.equals(nombreCliente))
-                            facturas.add(new Factura(fecha, nombreSinExtension,valorTotal));
-                    } catch (Exception e) {
-                        System.err.println("Error leyendo el archivo " + archivo.getName() + ": " + e.getMessage());
-                    }
-                }
-            }
-            return facturas;
-        } else {
-            System.err.println("La ruta especificada no es una carpeta válida.");
-        }
+        //if (carpeta.exists() && carpeta.isDirectory()) {
+            //File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith(".txt"));
+            //if (archivos != null) {
+                //for (File archivo : archivos) {
+                    //try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+                    //    String linea;
+                    //    String nombreCliente = "";
+                    //    String fecha = "";
+                    //    String valorTotal = "";
+                    //    while ((linea = br.readLine()) != null) {
+                    //        if (linea.startsWith("Cliente:")) {
+                    //            nombreCliente = linea.replace("Cliente:", "").trim();
+                    //        } else if (linea.startsWith("Fecha:")) {
+                    //            fecha = linea.replace("Fecha:", "").trim();
+                    //        } else if (linea.startsWith("Total: $")) {
+                    //            valorTotal = linea.replace("Total: $", "").trim();
+                    //        }
+                    //    }
+                    //    String nombreSinExtension = archivo.getName().replaceFirst("\\.txt$", "");
+                    //    if(cliente.equals(nombreCliente))
+                            //facturas.add(new Factura(fecha, nombreSinExtension,valorTotal));
+                    //} catch (Exception e) {
+                    //    System.err.println("Error leyendo el archivo " + archivo.getName() + ": " + e.getMessage());
+                    //}
+               //}
+            //}
+            //return facturas;
+        //} else {
+        //    System.err.println("La ruta especificada no es una carpeta válida.");
+        //}
         return null;
     }
     
