@@ -18,6 +18,7 @@ public class Registrarse extends javax.swing.JFrame {
     
     public Registrarse(Hotel hotel) {
         this.hotel = hotel;
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         initComponents();
     }
 

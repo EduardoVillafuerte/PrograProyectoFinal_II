@@ -34,6 +34,34 @@ public class Inicio extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         btnRegistrarse = new javax.swing.JButton();
 
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR)); // Cambia a mano
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR)); // Vuelve al cursor normal
+            }
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                try {
+                    String url = "https://www.instagram.com/theplazahotel/?hl=es"; // URL a abrir
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop desktop = Desktop.getDesktop();
+                        desktop.browse(new URI(url)); // Abre la URL en el navegador predeterminado
+                    } else {
+                        System.out.println("El sistema no soporta abrir URLs.");
+                    }
+                } catch (Exception ex) {
+                    System.out.println("Error al intentar abrir la URL: " + ex.getMessage());
+                }
+            }
+        });
+
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(640, 430));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
