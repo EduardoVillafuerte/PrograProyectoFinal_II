@@ -18,7 +18,7 @@ public class Registrarse extends javax.swing.JFrame {
     
     public Registrarse(Hotel hotel) {
         this.hotel = hotel;
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         initComponents();
     }
 
@@ -84,8 +84,9 @@ private boolean validarCelularEcuatoriano(String celular) {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setLocation(new java.awt.Point(700, 150));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

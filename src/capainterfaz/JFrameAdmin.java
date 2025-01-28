@@ -219,6 +219,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(350, 150));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
@@ -1083,11 +1084,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
 
         fondo.setName(""); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1197, 737));
-
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/fondo4.jpg"))); // NOI18N
-        fondo.setName(""); // NOI18N
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1197, 737));
-
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -37,21 +37,19 @@ public class Inicio extends javax.swing.JFrame {
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR)); // Cambia a mano
+                jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             }
-
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR)); // Vuelve al cursor normal
+                jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             }
-
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
-                    String url = "https://www.instagram.com/theplazahotel/?hl=es"; // URL a abrir
+                    String url = "https://www.instagram.com/theplazahotel/?hl=es";
                     if (Desktop.isDesktopSupported()) {
                         Desktop desktop = Desktop.getDesktop();
-                        desktop.browse(new URI(url)); // Abre la URL en el navegador predeterminado
+                        desktop.browse(new URI(url));
                     } else {
                         System.out.println("El sistema no soporta abrir URLs.");
                     }
@@ -61,8 +59,8 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(350, 150));
         setMinimumSize(new java.awt.Dimension(640, 430));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

@@ -109,7 +109,7 @@ public class JFrameCliente extends javax.swing.JFrame {
                 String producto = articulo.getNombre();
                 int longitud = producto.length();
                 String precio = String.format("%.2f", articulo.getPrecio());
-                producto = String.format("%-"+(20-longitud)+"s",producto);
+                producto = String.format("%-"+(50-longitud)+"s",producto);
                 modeloComboBox.addElement(producto + "   ~       $"+precio);
             }  
         } catch (Exception e) {
@@ -204,6 +204,9 @@ public class JFrameCliente extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
+        jRadioButtonMenuItem1.setSelected(true);
+        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
+
         jTable2.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent event) {
@@ -229,10 +232,10 @@ public class JFrameCliente extends javax.swing.JFrame {
             }
         });
 
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setLocation(new java.awt.Point(350, 150));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/Img10.png"))); // NOI18N
@@ -732,30 +735,37 @@ public class JFrameCliente extends javax.swing.JFrame {
                     .addGroup(PanelCompraLayout.createSequentialGroup()
                         .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelCompraLayout.createSequentialGroup()
-                                .addGap(4, 4, 4)
                                 .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel20)
                                     .addGroup(PanelCompraLayout.createSequentialGroup()
-                                        .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(PanelCompraLayout.createSequentialGroup()
-                                                .addComponent(jLabel14)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(30, 30, 30)
+                                        .addGap(4, 4, 4)
                                         .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel12)))))
+                                            .addComponent(jLabel20)
+                                            .addGroup(PanelCompraLayout.createSequentialGroup()
+                                                .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(PanelCompraLayout.createSequentialGroup()
+                                                        .addComponent(jLabel14)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGap(30, 30, 30)
+                                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(PanelCompraLayout.createSequentialGroup()
+                                        .addGap(87, 87, 87)
+                                        .addComponent(btnConfPay, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE))
                             .addGroup(PanelCompraLayout.createSequentialGroup()
-                                .addGap(87, 87, 87)
-                                .addComponent(btnConfPay, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel11)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                                .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelCompraLayout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12))))
                         .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelCompraLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(20, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCompraLayout.createSequentialGroup()
@@ -940,47 +950,50 @@ public class JFrameCliente extends javax.swing.JFrame {
         if(!jCheckBox1.isSelected()){
             JOptionPane.showMessageDialog(this, "Marque el checkbox primero de terminos y condiciones", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            int num = jTable3.getSelectedRow();
-            String cedula,habitacion,inicio,fin;
-            cedula = modelTablaReservas.getValueAt(num, 0).toString();
-            habitacion = modelTablaReservas.getValueAt(num, 2).toString();
-            inicio = modelTablaReservas.getValueAt(num, 3).toString();
-            fin = modelTablaReservas.getValueAt(num, 4).toString();
-            
-            
-        try {
-
-            String[] partes = inicio.split(" "); 
-            String mesNombre = partes[0];
-            int mesNumero = hotel.mesInt(mesNombre);
-
-            if (mesNumero == -1) {
-                System.out.println("Mes no reconocido.");
+            String cedula, habitacion, inicio, fin = "";
+            try {
+                int num = jTable3.getSelectedRow();
+                cedula = modelTablaReservas.getValueAt(num, 0).toString();
+                habitacion = modelTablaReservas.getValueAt(num, 2).toString();
+                inicio = modelTablaReservas.getValueAt(num, 3).toString();
+                fin = modelTablaReservas.getValueAt(num, 4).toString();
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Seleccione la reserva a cancelar", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
+            try {
 
-            String fechaFormateada = partes[1] + "-" + mesNumero + "-" + LocalDate.now().getYear();
+                String[] partes = inicio.split(" ");
+                String mesNombre = partes[0];
+                int mesNumero = hotel.mesInt(mesNombre)+1;
 
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("d-M-yyyy");
-            LocalDate fechaInicio = LocalDate.parse(fechaFormateada, formato);
+                if (mesNumero == -1) {
+                    System.out.println("Mes no reconocido.");
+                    return;
+                }
 
-            LocalDate hoy = LocalDate.now();
+                String fechaFormateada = partes[1] + "-" + mesNumero + "-" + LocalDate.now().getYear();
 
-            long diasDiferencia = ChronoUnit.DAYS.between(hoy, fechaInicio);
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("d-M-yyyy");
+                LocalDate fechaInicio = LocalDate.parse(fechaFormateada, formato);
 
-            if (diasDiferencia < 15) {
-                JOptionPane.showMessageDialog(this, "La fecha de inicio está a menos de 15 días. No se permite el reembolso.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "La fecha de inicio es válida para reembolso.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                LocalDate hoy = LocalDate.now();
+
+                long diasDiferencia = ChronoUnit.DAYS.between(hoy, fechaInicio);
+                if (diasDiferencia < 15) {
+                    JOptionPane.showMessageDialog(this, "La fecha de inicio está a menos de 15 días. No se permite el reembolso.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "La fecha de inicio es válida para reembolso.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                hotel.cancelarReserva(cedula, habitacion, inicio,fin);
+                jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));
+                llenaDias();
+
+            } catch (DateTimeParseException e) {
+                System.out.println("Error al parsear la fecha: " + e.getMessage());
             }
-            
-            hotel.cancelarReserva(cedula, habitacion, inicio,fin);
-            jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));
-            llenaDias();
-            
-        } catch (DateTimeParseException e) {
-            System.out.println("Error al parsear la fecha: " + e.getMessage());
-        }          
         }
         
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -1081,6 +1094,7 @@ public class JFrameCliente extends javax.swing.JFrame {
                 modeloTabla.removeRow(i);
             }   
             articulosagregados.clear();
+            this.compra_Total = 0;
             jLTotal.setText("0,00");
             llenarFacturas();
         } else {
