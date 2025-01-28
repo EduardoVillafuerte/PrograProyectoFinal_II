@@ -191,6 +191,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         btnAgregarCliente1 = new javax.swing.JButton();
+        fondo = new javax.swing.JLabel();
 
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -1080,6 +1081,14 @@ public class JFrameAdmin extends javax.swing.JFrame {
         });
         getContentPane().add(btnAgregarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 90, 150, 36));
 
+        fondo.setName(""); // NOI18N
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1197, 737));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/fondo4.jpg"))); // NOI18N
+        fondo.setName(""); // NOI18N
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1197, 737));
+
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1388,6 +1397,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarReserva;
     private javax.swing.JButton btnConfirmarReserva;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JLabel fondo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
