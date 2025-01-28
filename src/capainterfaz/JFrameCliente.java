@@ -5,12 +5,16 @@
 package capainterfaz;
 import capanegocio.Articulo;
 import capanegocio.Hotel;
+import java.awt.Desktop;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 /**
@@ -196,6 +200,31 @@ public class JFrameCliente extends javax.swing.JFrame {
         btnVerFacturas = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
+
+        jTable2.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    int filaSeleccionada = jTable2.getSelectedRow();
+
+                    if (filaSeleccionada != -1) {
+                        String rutaArchivo = "C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\facturas\\"+jTable2.getValueAt(filaSeleccionada, 1).toString()+".txt";
+
+                        try {
+                            File archivo = new File(rutaArchivo);
+                            if (archivo.exists() && archivo.isFile()) {
+                                Desktop.getDesktop().open(archivo);
+                                jTable2.clearSelection();
+                            } else {
+                                System.err.println("El archivo no existe o no es válido: " + rutaArchivo);
+                            }
+                        } catch (Exception ex) {
+                            System.err.println("Error al intentar abrir el archivo: " + ex.getMessage());
+                        }
+                    }
+                }
+            }
+        });
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -915,7 +944,7 @@ public class JFrameCliente extends javax.swing.JFrame {
             inicio = modelTablaReservas.getValueAt(num, 3).toString();
             fin = modelTablaReservas.getValueAt(num, 4).toString();
             hotel.cancelarReserva(cedula, habitacion, inicio,fin);
-            obtenerDatos();
+            jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));        
         }
         
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -1016,6 +1045,7 @@ public class JFrameCliente extends javax.swing.JFrame {
                 modeloTabla.removeRow(i);
             }   
             articulosagregados.clear();
+            jLTotal.setText("0,00");
             llenarFacturas();
         } else {
             JOptionPane.showMessageDialog(this, "No existe ningún producto en la lista", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1095,10 +1125,10 @@ public class JFrameCliente extends javax.swing.JFrame {
             if(diaInicio == diaFin && mesFin.equals(mesInicio)) {
                 JOptionPane.showMessageDialog(this, "No se puede tener el reservar y salir el mismo dia", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                hotel.modificarDisponibilidad(habitacion,mesInicio, diaInicio, mesFin, diaFin,true,cedula);
+                hotel.modificarDisponibilidad(habitacion, mesInicio, diaInicio, mesFin, diaFin,true,cedula);
                 llenaDias();
                 jCBoxHabitacion.setSelectedIndex(0);
-                obtenerDatos();
+                jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));
             }  
         }
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -54,7 +54,8 @@ public class Hotel {
             JOptionPane.showMessageDialog(null, "El cliente ya existe", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public DefaultTableModel visualizarClientes(DefaultTableModel modelTablaClientes ){   
+    public DefaultTableModel visualizarClientes(DefaultTableModel modelTablaClientes ){  
+        modelTablaClientes.setRowCount(0);
         for(Cliente cliente: obtenerClientes()){
             modelTablaClientes.addRow(new Object[] {cliente.getNombre(), cliente.getApellido(), cliente.getCedula()});
         }
@@ -62,6 +63,7 @@ public class Hotel {
     }
 
     public List<Cliente> obtenerClientes(){
+        clientes.clear();
         try{
             rs = cn.obetenrDatos("clientes");
             while(rs.next()){
@@ -285,6 +287,7 @@ public class Hotel {
     }
     
     public DefaultTableModel getFacturas(String cedula,DefaultTableModel modelTablaFactura){
+        modelTablaFactura.setRowCount(0);
         try{
             for(Factura factura : obtenerTodasFacturas(cedula)){
                 modelTablaFactura.addRow( new Object[] {factura.getFecha(),factura.getnombre(),factura.getTotalStr()});
@@ -294,6 +297,7 @@ public class Hotel {
     }
     
     public List<Factura> obtenerTodasFacturas(String cedula){
+        facturas.clear();
         String rutaCarpeta = "C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\facturas";
         File carpeta = new File(rutaCarpeta);
         if (carpeta.exists() && carpeta.isDirectory()) {
@@ -464,6 +468,7 @@ public class Hotel {
     }
     
     public DefaultTableModel getReservas(DefaultTableModel modelTablaReservas,String cedula){
+        modelTablaReservas.setRowCount(0);
         File carpeta = new File("C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\habitaciones\\reservas");
         if (carpeta.exists() && carpeta.isDirectory()) {
             File[] archivos = carpeta.listFiles((dir, name) -> name.startsWith("reservas" + cedula) && name.endsWith(".txt"));
@@ -539,7 +544,7 @@ public class Hotel {
     }
 
     public void guardarReserva(String cliente, String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, int totalDias) {
-        File archivoReservas = new File(RUTA_HABITACIONES+"/reservas/", "reservas"+cliente+habitacion+".txt");
+        File archivoReservas = new File(RUTA_HABITACIONES+"/reservas/", "reservas"+cliente+".txt");
         Fecha fecha = new Fecha();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoReservas, true))) {
             writer.write("Cedula: " + cliente);

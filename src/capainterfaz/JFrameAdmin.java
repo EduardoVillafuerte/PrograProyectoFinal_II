@@ -8,10 +8,14 @@ import capanegocio.Articulo;
 import capanegocio.Cliente;
 import capanegocio.Empleado;
 import capanegocio.Hotel;
+import java.awt.Desktop;
+import java.io.File;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -116,6 +120,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        btnActualizarCliente = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -186,6 +191,31 @@ public class JFrameAdmin extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         btnAgregarCliente1 = new javax.swing.JButton();
+
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    int filaSeleccionada = jTable1.getSelectedRow();
+
+                    if (filaSeleccionada != -1) {
+                        String rutaArchivo = "C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\facturas\\"+jTable1.getValueAt(filaSeleccionada, 1).toString()+".txt";
+
+                        try {
+                            File archivo = new File(rutaArchivo);
+                            if (archivo.exists() && archivo.isFile()) {
+                                Desktop.getDesktop().open(archivo);
+                                jTable1.clearSelection();
+                            } else {
+                                System.err.println("El archivo no existe o no es válido: " + rutaArchivo);
+                            }
+                        } catch (Exception ex) {
+                            System.err.println("Error al intentar abrir el archivo: " + ex.getMessage());
+                        }
+                    }
+                }
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -296,6 +326,16 @@ public class JFrameAdmin extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("Agregar Cliente");
 
+        btnActualizarCliente.setBackground(new java.awt.Color(102, 204, 0));
+        btnActualizarCliente.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
+        btnActualizarCliente.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizarCliente.setText("ACTUALIZAR");
+        btnActualizarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarClienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -312,6 +352,8 @@ public class JFrameAdmin extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addGap(89, 89, 89)
                             .addComponent(btnAgregarCliente)
+                            .addGap(168, 168, 168)
+                            .addComponent(btnActualizarCliente)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEliminar)
                             .addGap(59, 59, 59))
@@ -340,7 +382,8 @@ public class JFrameAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(btnActualizarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
@@ -1251,11 +1294,16 @@ public class JFrameAdmin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        String cedula = jTextField1.getText();
-        jTable1.setModel(hotel.getFacturas(cedula,modelTablaFactura));        
-        jTable2.setModel(hotel.getReservas(modelTablaReservas,cedula));
+       jTextField2.setText(hotel.buscarCliente(cedula).getNombre());
+       jTable1.setModel(hotel.getFacturas(cedula,modelTablaFactura));        
+       jTable2.setModel(hotel.getReservas(modelTablaReservas,cedula));
 
        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnActualizarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarClienteActionPerformed
+        jTableClientes.setModel(hotel.visualizarClientes(modelTablaClientes));    
+    }//GEN-LAST:event_btnActualizarClienteActionPerformed
     
     public static boolean validarCedula(String cedula) {
         if (cedula == null || cedula.length() != 10 || !cedula.matches("\\d+")) {
@@ -1327,6 +1375,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizarCliente;
     private javax.swing.JButton btnAgregarArticulo;
     private javax.swing.JButton btnAgregarArticulo1;
     private javax.swing.JButton btnAgregarCliente;
