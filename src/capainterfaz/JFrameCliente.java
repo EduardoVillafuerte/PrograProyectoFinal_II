@@ -8,6 +8,9 @@ import capanegocio.Hotel;
 import java.awt.Desktop;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -943,8 +946,41 @@ public class JFrameCliente extends javax.swing.JFrame {
             habitacion = modelTablaReservas.getValueAt(num, 2).toString();
             inicio = modelTablaReservas.getValueAt(num, 3).toString();
             fin = modelTablaReservas.getValueAt(num, 4).toString();
+            
+            
+        try {
+
+            String[] partes = inicio.split(" "); 
+            String mesNombre = partes[0];
+            int mesNumero = hotel.mesInt(mesNombre);
+
+            if (mesNumero == -1) {
+                System.out.println("Mes no reconocido.");
+                return;
+            }
+
+            String fechaFormateada = partes[1] + "-" + mesNumero + "-" + LocalDate.now().getYear();
+
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("d-M-yyyy");
+            LocalDate fechaInicio = LocalDate.parse(fechaFormateada, formato);
+
+            LocalDate hoy = LocalDate.now();
+
+            long diasDiferencia = ChronoUnit.DAYS.between(hoy, fechaInicio);
+
+            if (diasDiferencia < 15) {
+                JOptionPane.showMessageDialog(this, "La fecha de inicio está a menos de 15 días. No se permite el reembolso.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "La fecha de inicio es válida para reembolso.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
             hotel.cancelarReserva(cedula, habitacion, inicio,fin);
-            jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));        
+            jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));
+            llenaDias();
+            
+        } catch (DateTimeParseException e) {
+            System.out.println("Error al parsear la fecha: " + e.getMessage());
+        }          
         }
         
     }//GEN-LAST:event_jButton6ActionPerformed

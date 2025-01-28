@@ -500,8 +500,6 @@ public class Hotel {
     }
 
     public void cancelarReserva(String cedula, String habitacion, String fechaInicio, String fechaFin) {
-        System.out.println(fechaInicio);
-        System.out.println(fechaFin);
         String[] partesInicio = fechaInicio.split(" ");
         String mesInicio = partesInicio[0];
         int diaInicio = Integer.parseInt(partesInicio[1]);
@@ -509,8 +507,7 @@ public class Hotel {
         String mesFin = partesFin[0];
         int diaFin = Integer.parseInt(partesFin[1]);
         eliminarReserva(cedula, habitacion, mesInicio + " " + diaInicio);
-        System.out.println("123");
-        //cancelar(habitacion, mesInicio, diaInicio, mesFin, diaFin, cedula);
+        cancelar(habitacion, mesInicio, diaInicio, mesFin, diaFin, cedula);
     }
 
     public void eliminarReserva(String cedula, String habitacion, String inicioReserva) {
