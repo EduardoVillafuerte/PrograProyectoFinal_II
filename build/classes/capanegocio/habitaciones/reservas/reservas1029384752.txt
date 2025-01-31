@@ -1,0 +1,8 @@
+Cedula: 1029384752, Habitación: 102, Inicio: Enero 30, Fin: Enero 31, Total de días: 2, Reserva: 28/01/2025
+Cedula: 1029384752, Habitación: 102, Inicio: Enero 28, Fin: Enero 29, Total de días: 2, Reserva: 28/01/2025
+Cedula: 1029384752, Habitación: 103, Inicio: Marzo 1, Fin: Abril 2, Total de días: 33, Reserva: 28/01/2025
+Cedula: 1029384752, Habitación: 104, Inicio: Marzo 15, Fin: Marzo 20, Total de días: 6, Reserva: 29/01/2025
+Cedula: 1029384752, Habitación: 102, Inicio: Marzo 6, Fin: Marzo 7, Total de días: 2, Reserva: 29/01/2025
+Cedula: 1029384752, Habitación: 104, Inicio: Mayo 5, Fin: Mayo 10, Total de días: 6, Reserva: 29/01/2025
+Cedula: 1029384752, Habitación: 104, Inicio: Enero 30, Fin: Enero 31, Total de días: 2, Reserva: 29/01/2025
+Cedula: 1029384752, Habitación: 102, Inicio: Junio 1, Fin: Junio 26, Total de días: 26, Reserva: 29/01/2025

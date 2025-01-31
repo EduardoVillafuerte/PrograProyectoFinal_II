@@ -1,0 +1,2 @@
+Cedula: 1001994225, Habitación: 104, Inicio: Abril 3, Fin: Abril 10, Total de días: 8, Reserva: 29/01/2025
+Cedula: 1001994225, Habitación: 105, Inicio: Diciembre 7, Fin: Diciembre 15, Total de días: 9, Reserva: 29/01/2025

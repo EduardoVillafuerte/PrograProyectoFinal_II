@@ -158,7 +158,7 @@ public class Hotel {
     public DefaultTableModel visualizarArticulos(DefaultTableModel modelTablaArticulos){
         try{
             articulos.clear();
-            rs = cn.obetenrDatos("ProductoEmpleados");
+            rs = cn.obetenrDatos("ProductoUsuarios");
             while(rs.next()){
                 String nombre = rs.getString("nombre");
                 int cantidad = rs.getInt("cantidad");
@@ -186,7 +186,7 @@ public class Hotel {
     public void agregarArticulo(String nombre, float precio ,String categoria, int cantidad) {
         if(buscarArticulo(nombre) == null){
             try{
-                cn.agregarArticulos("ProductoEmpleados", new Articulo(nombre, precio, tipoCategoria(categoria), cantidad, alertas(cantidad)));
+                cn.agregarArticulos("ProductoUsuarios", new Articulo(nombre, precio, tipoCategoria(categoria), cantidad, alertas(cantidad)));
             }
             catch(Exception e){
                 System.out.println("error "+e.getMessage());
@@ -198,7 +198,7 @@ public class Hotel {
     public void eliminarArticulo(String nombre) {
         for (Articulo a : articulos){
             if(a.getNombre().equals(nombre)) {
-                cn.eliminarArticulo(nombre, "ProductoEmpleados");
+                cn.eliminarArticulo(nombre, "ProductoUsuarios");
                 articulos.remove(a);
                 return;
             }
@@ -352,7 +352,7 @@ public class Hotel {
     }
     
     public void guardarCambiosInventario(List<Articulo> articulo, String tabla){
-        cn.guardarCambiosInventario(articulo,tabla);
+       cn.guardarCambiosInventario(articulo,tabla);
     }
 
     public void reservar(String habitacion, String mesInicio, int diaInicio, String mesFin, int diaFin, String cliente) {

@@ -123,8 +123,6 @@
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
                                   <Component id="btnAgregarCliente" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
-                                  <Component id="btnActualizarCliente" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="btnEliminar" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
@@ -161,7 +159,6 @@
                           <Component id="btnEliminar" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                           <Component id="btnAgregarCliente" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnActualizarCliente" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="251" max="-2" attributes="0"/>
@@ -255,7 +252,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="66" red="66" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Ingrese el n&#xfa;meo de c&#xe9;dula: "/>
+                <Property name="text" type="java.lang.String" value="Ingrese el n&#xfa;mero de c&#xe9;dula: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator1">
@@ -321,23 +318,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Agregar Cliente"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnActualizarCliente">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="cc" red="66" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Lucida Bright" size="14" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="ACTUALIZAR"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarClienteActionPerformed"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -585,7 +565,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="66" red="66" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Ingrese el n&#xfa;meo de c&#xe9;dula: "/>
+                <Property name="text" type="java.lang.String" value="Ingrese el n&#xfa;mero de c&#xe9;dula: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator2">
@@ -704,8 +684,10 @@
                               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                               <Component id="txtNombreArticuloBuscar" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
-                              <Component id="btnBuscarArticuloAdmin" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnBuscarArticuloAdmin" min="-2" pref="99" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
                               <Component id="btnAgregarArticulo1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="148" max="-2" attributes="0"/>
                           </Group>
@@ -737,8 +719,9 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNombreArticuloBuscar" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="btnBuscarArticuloAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuscarArticuloAdmin" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           <Component id="btnAgregarArticulo1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="jButton4" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="jScrollPane3" min="-2" pref="251" max="-2" attributes="0"/>
@@ -910,10 +893,8 @@
             <Component class="javax.swing.JComboBox" name="jCBCategoriaArticulo">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
-                    <StringItem index="0" value="ACCESORIO_BANIO"/>
-                    <StringItem index="1" value="LIMPIEZA"/>
-                    <StringItem index="2" value="ROPA_CAMA"/>
+                  <StringArray count="1">
+                    <StringItem index="0" value="ALIMENTO"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -936,6 +917,23 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarArticulo1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton4">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="99" red="99" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Lucida Bright" size="14" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="STOCK"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

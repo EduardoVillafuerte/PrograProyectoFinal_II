@@ -25,7 +25,7 @@ import javax.swing.table.TableColumnModel;
  * @author zapat
  */
 public class JFrameCliente extends javax.swing.JFrame {
-    private Hotel hotel;
+    private Hotel hotel;    
     private DefaultTableModel modeloTabla; 
     private DefaultTableModel modelTablaFactura;
     private DefaultTableModel modelTablaReservas;
@@ -125,7 +125,7 @@ public class JFrameCliente extends javax.swing.JFrame {
             System.out.println("No se pudo obtener el inventario: " + e.getMessage());
         }
         jComboBox2.setModel(modeloComboBox);
-        jComboBox5.setModel(modeloComboBox1);
+        //jComboBox5.setModel(modeloComboBox1);
     }
     
 
@@ -186,16 +186,12 @@ public class JFrameCliente extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
         jLTotal = new javax.swing.JLabel();
         btnConfPay = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
         jComboBox6 = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         btnReservar = new javax.swing.JButton();
@@ -204,8 +200,6 @@ public class JFrameCliente extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
         jTable2.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -232,6 +226,8 @@ public class JFrameCliente extends javax.swing.JFrame {
             }
         });
 
+        jRadioButtonMenuItem1.setSelected(true);
+        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -559,7 +555,7 @@ public class JFrameCliente extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Lucida Bright", 0, 12)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText("- Cancelación con 15 días o más de antelación:\n\nSi el cliente cancela la reserva al menos 15 días antes de la fecha de entrada, se reembolsará el 100% del monto pagado.\nEl reembolso se realizará dentro de un plazo de 10 días hábiles desde la fecha de cancelación.\n\n- Cancelación con menos de 15 días de antelación o no presentación:\n\nSi la cancelación se realiza con menos de 15 días de antelación o el cliente no se presenta en la fecha de entrada, no se \nrealizará ningún reembolso.");
+        jTextArea1.setText(" Política de Cancelación\n\nCancelación con 15 días o más de antelación:\nSi el cliente cancela la reserva al menos 15 días antes de la fecha de entrada, \nse procederá a realizar la cancelación sin inconvenientes.\n\nCancelación con menos de 15 días de antelación:\nEn caso de que la cancelación se realice con menos de 15 días de antelación, \nno será posible llevar a cabo la cancelación de la reserva.");
         jScrollPane3.setViewportView(jTextArea1);
 
         jCheckBox1.setText("He leído y acepto la política de cancelación.");
@@ -605,6 +601,15 @@ public class JFrameCliente extends javax.swing.JFrame {
             .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
                 .addGroup(PanelCancelarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
+                        .addGap(263, 263, 263)
+                        .addComponent(jLabel15)))
+                .addGap(0, 114, Short.MAX_VALUE))
+            .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
+                .addGroup(PanelCancelarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
                         .addGap(350, 350, 350)
                         .addComponent(jButton6))
                     .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
@@ -612,28 +617,20 @@ public class JFrameCliente extends javax.swing.JFrame {
                         .addComponent(jCheckBox1))
                     .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
                         .addGap(71, 71, 71)
-                        .addGroup(PanelCancelarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel22)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(99, Short.MAX_VALUE))
-            .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
-                .addGroup(PanelCancelarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel22))
                     .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
-                        .addGap(263, 263, 263)
-                        .addComponent(jLabel15)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(140, 140, 140)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelCancelarReservaLayout.setVerticalGroup(
             PanelCancelarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelCancelarReservaLayout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(jLabel15)
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -668,24 +665,6 @@ public class JFrameCliente extends javax.swing.JFrame {
             }
         });
 
-        jLabel20.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel20.setText("Eliminar Producto");
-
-        jLabel14.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
-        jLabel14.setText("Nombre");
-
-        btnEliminar.setBackground(new java.awt.Color(255, 0, 51));
-        btnEliminar.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
-        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminar.setText("Eliminar");
-        btnEliminar.setBorder(null);
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -712,12 +691,6 @@ public class JFrameCliente extends javax.swing.JFrame {
             }
         });
 
-        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox5ActionPerformed(evt);
-            }
-        });
-
         jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50" }));
 
         javax.swing.GroupLayout PanelCompraLayout = new javax.swing.GroupLayout(PanelCompra);
@@ -737,32 +710,22 @@ public class JFrameCliente extends javax.swing.JFrame {
                             .addGroup(PanelCompraLayout.createSequentialGroup()
                                 .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(PanelCompraLayout.createSequentialGroup()
-                                        .addGap(4, 4, 4)
-                                        .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel20)
-                                            .addGroup(PanelCompraLayout.createSequentialGroup()
-                                                .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(PanelCompraLayout.createSequentialGroup()
-                                                        .addComponent(jLabel14)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(30, 30, 30)
-                                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(PanelCompraLayout.createSequentialGroup()
-                                        .addGap(87, 87, 87)
-                                        .addComponent(btnConfPay, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE))
-                            .addGroup(PanelCompraLayout.createSequentialGroup()
-                                .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelCompraLayout.createSequentialGroup()
                                         .addComponent(jLabel11)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12))))
+                                    .addComponent(jLabel12)))
+                            .addGroup(PanelCompraLayout.createSequentialGroup()
+                                .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelCompraLayout.createSequentialGroup()
+                                        .addGap(66, 66, 66)
+                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(PanelCompraLayout.createSequentialGroup()
+                                        .addGap(100, 100, 100)
+                                        .addComponent(btnConfPay, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)))
                         .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelCompraLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
@@ -788,10 +751,9 @@ public class JFrameCliente extends javax.swing.JFrame {
                 .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelCompraLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
+                        .addGap(38, 38, 38)
                         .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnConfPay, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(PanelCompraLayout.createSequentialGroup()
@@ -805,15 +767,9 @@ public class JFrameCliente extends javax.swing.JFrame {
                             .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(43, 43, 43)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
-                        .addComponent(jLabel20)
-                        .addGap(18, 18, 18)
-                        .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel14)
-                                .addComponent(jComboBox5))
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(152, 152, 152))))
+                        .addGap(73, 73, 73)
+                        .addComponent(btnConfPay, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(181, 181, 181))))
         );
 
         jTabbedPane1.addTab("Comprar", PanelCompra);
@@ -982,14 +938,13 @@ public class JFrameCliente extends javax.swing.JFrame {
 
                 long diasDiferencia = ChronoUnit.DAYS.between(hoy, fechaInicio);
                 if (diasDiferencia < 15) {
-                    JOptionPane.showMessageDialog(this, "La fecha de inicio está a menos de 15 días. No se permite el reembolso.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "La fecha de inicio está a menos de 15 días. No se permite la cancelación de la reserva.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(this, "La fecha de inicio es válida para reembolso.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    hotel.cancelarReserva(cedula, habitacion, inicio,fin);
+                    jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));
+                    llenaDias();
+                    JOptionPane.showMessageDialog(this, "La fecha de inicio es válida para la cancelación.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 }
-
-                hotel.cancelarReserva(cedula, habitacion, inicio,fin);
-                jTable3.setModel(hotel.getReservas(modelTablaReservas,cedula));
-                llenaDias();
 
             } catch (DateTimeParseException e) {
                 System.out.println("Error al parsear la fecha: " + e.getMessage());
@@ -1047,44 +1002,6 @@ public class JFrameCliente extends javax.swing.JFrame {
             System.out.println("No se pudo recuoerar: "+ e.getMessage());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox5ActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        String seleccionado = (String) jComboBox5.getSelectedItem();
-        for (int i =  modeloTabla.getRowCount(); i > 0 ; i--) {
-            int longitud = seleccionado.length();
-            String buscado = (String) modeloTabla.getValueAt(i-1, 0);
-            if(seleccionado.equals(buscado.substring(0,longitud))){
-                try{
-                    this.compra_Total -= (double) modeloTabla.getValueAt(i-1,2);
-                    int cantidad = (int) modeloTabla.getValueAt(i-1,1);
-                    String total = String.format("%.2f", this.compra_Total);
-                    jLTotal.setText(total);
-                    modeloTabla.removeRow(i-1);
-                    jComboBox5.setSelectedIndex(0);
-                    for(Articulo articulo:articulos){
-                        articulo.setCantidadDisponible(cantidad + articulo.getCantidadDisponible());
-                        for(int j = 0; j < articulosagregados.size();j++){
-                            if(articulo.getNombre().equals(articulosagregados.get(j).getNombre())){
-                                articulosagregados.remove(j);
-                                System.out.println("Elimindado de la lista");
-                            }
-                        }
-                    }
-                    JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }catch(Exception e){
-                    JOptionPane.showMessageDialog(this, "El producto no se encuentra en la lista", "Error", JOptionPane.ERROR_MESSAGE);
-                    System.out.println("Error: "+e.getMessage());
-                }
-            }
-        }
-        JOptionPane.showMessageDialog(this, "No hay productos en la lista", "Error", JOptionPane.ERROR_MESSAGE);
-
-    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnConfPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfPayActionPerformed
         if (!this.articulosagregados.isEmpty()) {
@@ -1162,6 +1079,7 @@ public class JFrameCliente extends javax.swing.JFrame {
         String habitacion = jCBoxHabitacion.getSelectedItem().toString();
         String mesFin = jComboBox1.getSelectedItem().toString();
         int diaFin = Integer.parseInt(jCBoxDiaSalida.getSelectedItem().toString());
+        
         int mes = hotel.mesInt(mesInicio)+1;
         LocalDate hoy = LocalDate.now();
         int mesActual = hoy.getMonthValue();
@@ -1239,7 +1157,6 @@ public class JFrameCliente extends javax.swing.JFrame {
     private javax.swing.JPanel PanelVerFacturas;
     private javax.swing.JButton btnComprar;
     private javax.swing.JButton btnConfPay;
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnReservar;
     private javax.swing.JButton btnVerFacturas;
     private javax.swing.JLabel fondo;
@@ -1258,7 +1175,6 @@ public class JFrameCliente extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JLabel jLDisponibilidad;
     private javax.swing.JLabel jLTotal;
@@ -1267,13 +1183,11 @@ public class JFrameCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;

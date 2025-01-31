@@ -28,36 +28,41 @@ public class Registrarse extends javax.swing.JFrame {
 
  
    private boolean validarCedulaEcuatoriana(String cedula) {
-    if (!cedula.matches("\\d{10}")) {
-        return false; 
-    }
-
-    int suma = 0;
-    int[] coeficientes = {2, 1, 2, 1, 2, 1, 2, 1, 2};
-    int verificador = Character.getNumericValue(cedula.charAt(9));
-
-    for (int i = 0; i < 9; i++) {
-        int digito = Character.getNumericValue(cedula.charAt(i));
-        int producto = digito * coeficientes[i];
-        if (producto >= 10) {
-            producto -= 9;
+        if (!cedula.matches("\\d{10}")) {
+            return false; 
         }
-        suma += producto;
+
+        int suma = 0;
+        int[] coeficientes = {2, 1, 2, 1, 2, 1, 2, 1, 2};
+        int verificador = Character.getNumericValue(cedula.charAt(9));
+
+        for (int i = 0; i < 9; i++) {
+            int digito = Character.getNumericValue(cedula.charAt(i));
+            int producto = digito * coeficientes[i];
+            if (producto >= 10) {
+                producto -= 9;
+            }
+            suma += producto;
+        }
+
+        int modulo = suma % 10;
+        int resultado = (modulo == 0) ? 0 : 10 - modulo;
+
+        return resultado == verificador;
     }
 
-    int modulo = suma % 10;
-    int resultado = (modulo == 0) ? 0 : 10 - modulo;
+    private boolean validarCorreo(String correo) {
+        return correo.matches("^[\\w._%+-]+@(gmail\\.com|hotmail\\.com|udla\\.edu\\.ec)$");
+    }
 
-    return resultado == verificador;
-}
-
-private boolean validarCorreo(String correo) {
-    return correo.matches("^[\\w._%+-]+@(gmail\\.com|hotmail\\.com|udla\\.edu\\.ec)$");
-}
-
-private boolean validarCelularEcuatoriano(String celular) {
-    return celular.matches("^09\\d{8}$");
-}
+    private boolean validarCelularEcuatoriano(String celular) {
+        return celular.matches("^09\\d{8}$");
+    }
+    
+    public static boolean validarNombre(String nombre) {
+        return nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -72,7 +77,6 @@ private boolean validarCelularEcuatoriano(String celular) {
         jLabel3 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtPass = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -80,9 +84,9 @@ private boolean validarCelularEcuatoriano(String celular) {
         txtCorreo = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtCelular = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -99,8 +103,6 @@ private boolean validarCelularEcuatoriano(String celular) {
 
         jLabel4.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
         jLabel4.setText("Cédula");
-
-        txtPass.setFont(new java.awt.Font("Lucida Bright", 0, 13)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
         jLabel5.setText("Contraseña");
@@ -127,10 +129,6 @@ private boolean validarCelularEcuatoriano(String celular) {
 
         txtCelular.setFont(new java.awt.Font("Lucida Bright", 0, 12)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel8.setText("+593");
-
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/capainterfaz/Img10.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
@@ -152,20 +150,17 @@ private boolean validarCelularEcuatoriano(String celular) {
                                     .addComponent(jLabel4)
                                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtApellido, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel5)
-                                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jPasswordField1)))
                             .addComponent(txtCorreo)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel6)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(102, 102, 102)
@@ -195,9 +190,9 @@ private boolean validarCelularEcuatoriano(String celular) {
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPasswordField1)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
                 .addGap(26, 26, 26)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
@@ -205,9 +200,7 @@ private boolean validarCelularEcuatoriano(String celular) {
                 .addGap(25, 25, 25)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(86, Short.MAX_VALUE))
@@ -231,11 +224,18 @@ private boolean validarCelularEcuatoriano(String celular) {
         String nombre = txtNombre.getText();
         String apellido = txtApellido.getText();
         String cedula = txtCedula.getText();
-        String pass = txtPass.getText();
+        String pass = jPasswordField1.getText();
         String correo = txtCorreo.getText();
         String celular = txtCelular.getText();
                
-        
+        if(!validarNombre(nombre)){
+            JOptionPane.showMessageDialog(this, "Ingrese un nombre sin numeros", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!validarNombre(apellido)){
+            JOptionPane.showMessageDialog(this, "Ingrese un apellido sin numeros", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if(!validarCedulaEcuatoriana(cedula)){
             JOptionPane.showMessageDialog(this, "Ingrese una cedula correcta", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -297,13 +297,12 @@ private boolean validarCelularEcuatoriano(String celular) {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCelular;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPass;
     // End of variables declaration//GEN-END:variables
 }

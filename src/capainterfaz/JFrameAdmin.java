@@ -10,6 +10,7 @@ import capanegocio.Empleado;
 import capanegocio.Hotel;
 import java.awt.Desktop;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -22,7 +23,7 @@ import javax.swing.table.TableColumnModel;
 
 /**
  *
- * @author zapat
+ * @author eddy
  */
 public class JFrameAdmin extends javax.swing.JFrame {
 
@@ -120,7 +121,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        btnActualizarCliente = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -155,6 +155,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
         btnBuscarArticuloAdmin = new javax.swing.JButton();
         jCBCategoriaArticulo = new javax.swing.JComboBox<>();
         btnAgregarArticulo1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -192,31 +193,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         btnAgregarCliente1 = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
-
-        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent event) {
-                if (!event.getValueIsAdjusting()) {
-                    int filaSeleccionada = jTable1.getSelectedRow();
-
-                    if (filaSeleccionada != -1) {
-                        String rutaArchivo = "C:\\Programacion UDLA\\Programacion II\\PrograProyectoFinal_II\\src\\capanegocio\\facturas\\"+jTable1.getValueAt(filaSeleccionada, 1).toString()+".txt";
-
-                        try {
-                            File archivo = new File(rutaArchivo);
-                            if (archivo.exists() && archivo.isFile()) {
-                                Desktop.getDesktop().open(archivo);
-                                jTable1.clearSelection();
-                            } else {
-                                System.err.println("El archivo no existe o no es válido: " + rutaArchivo);
-                            }
-                        } catch (Exception ex) {
-                            System.err.println("Error al intentar abrir el archivo: " + ex.getMessage());
-                        }
-                    }
-                }
-            }
-        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(350, 150));
@@ -295,7 +271,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel6.setText("Ingrese el númeo de cédula: ");
+        jLabel6.setText("Ingrese el número de cédula: ");
 
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -328,16 +304,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("Agregar Cliente");
 
-        btnActualizarCliente.setBackground(new java.awt.Color(102, 204, 0));
-        btnActualizarCliente.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
-        btnActualizarCliente.setForeground(new java.awt.Color(255, 255, 255));
-        btnActualizarCliente.setText("ACTUALIZAR");
-        btnActualizarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarClienteActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -354,8 +320,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addGap(89, 89, 89)
                             .addComponent(btnAgregarCliente)
-                            .addGap(168, 168, 168)
-                            .addComponent(btnActualizarCliente)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEliminar)
                             .addGap(59, 59, 59))
@@ -384,8 +348,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnActualizarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
@@ -451,7 +414,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel10.setText("Ingrese el númeo de cédula: ");
+        jLabel10.setText("Ingrese el número de cédula: ");
 
         btnBuscarEmpleado.setBackground(new java.awt.Color(0, 102, 102));
         btnBuscarEmpleado.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
@@ -637,7 +600,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
             }
         });
 
-        jCBCategoriaArticulo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ACCESORIO_BANIO", "LIMPIEZA", "ROPA_CAMA" }));
+        jCBCategoriaArticulo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALIMENTO" }));
 
         btnAgregarArticulo1.setBackground(new java.awt.Color(255, 153, 153));
         btnAgregarArticulo1.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
@@ -646,6 +609,16 @@ public class JFrameAdmin extends javax.swing.JFrame {
         btnAgregarArticulo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarArticulo1ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setBackground(new java.awt.Color(153, 153, 255));
+        jButton4.setFont(new java.awt.Font("Lucida Bright", 1, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("STOCK");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
             }
         });
 
@@ -685,8 +658,10 @@ public class JFrameAdmin extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addComponent(txtNombreArticuloBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(111, 111, 111)
-                        .addComponent(btnBuscarArticuloAdmin)
+                        .addComponent(btnBuscarArticuloAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addGap(91, 91, 91)
                         .addComponent(btnAgregarArticulo1)
                         .addGap(148, 148, 148))))
         );
@@ -712,8 +687,9 @@ public class JFrameAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(txtNombreArticuloBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarArticuloAdmin)
-                    .addComponent(btnAgregarArticulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBuscarArticuloAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarArticulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
@@ -1229,7 +1205,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarReservaActionPerformed
 
     private void btnConfirmarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarReservaActionPerformed
-        String nombre = txtNombreReserva.getText();
+        String cedula = txtCedulaReserva.getText();
         String mesInicio = jCBMesEntradaReserva.getSelectedItem().toString();
         String habitacion = jCBHabitacionReserva.getSelectedItem().toString();
         int diaInicio = Integer.parseInt(jCBDiaEntradaReserva.getSelectedItem().toString());
@@ -1238,13 +1214,23 @@ public class JFrameAdmin extends javax.swing.JFrame {
         if(diaInicio == diaFin && mesFin.equals(mesInicio)){
             JOptionPane.showMessageDialog(this, "No se puede tener el reservar y salir el mismo dia", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            if(nombre.equals("") || nombre.equals(" ")){
-                JOptionPane.showMessageDialog(this, "Identifique al cliente primero", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+            
+            int mes = hotel.mesInt(mesInicio)+1;
+            LocalDate hoy = LocalDate.now();
+            int mesActual = hoy.getMonthValue();
+            int diaActual = hoy.getDayOfMonth();
+
+            if(mes < mesActual || (mes == mesActual && diaInicio < diaActual)){
+                JOptionPane.showMessageDialog(null, "No puedes seleccionar una fecha anterior a hoy.", "Fecha Inválida", JOptionPane.WARNING_MESSAGE);
+            }else{
+                if(cedula.equals("") || cedula.equals(" ")){
+                    JOptionPane.showMessageDialog(this, "Identifique al cliente primero", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                hotel.modificarDisponibilidad(habitacion,mesInicio, diaInicio, mesFin, diaFin,true,cedula);
+                llenaDias();
+                jCBHabitacionReserva.setSelectedIndex(0);
             }
-            hotel.modificarDisponibilidad(habitacion,mesInicio, diaInicio, mesFin, diaFin,true,nombre);
-            llenaDias();
-            jCBHabitacionReserva.setSelectedIndex(0);
         }
     }//GEN-LAST:event_btnConfirmarReservaActionPerformed
 
@@ -1261,7 +1247,12 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int num = jTableClientes.getSelectedRow();
         String cedula = modelTablaClientes.getValueAt(num, 2).toString();
-        hotel.eliminarCliente(cedula);
+        
+        DefaultTableModel dn = new DefaultTableModel();
+        dn = hotel.getReservas(dn,cedula);
+        if(dn.getRowCount() == 0 ){
+            hotel.eliminarCliente(cedula);
+        }else JOptionPane.showMessageDialog(null, "No se puede eliminar el cliente si tiene facturas", "Error", JOptionPane.ERROR_MESSAGE);
         obtenerDatos();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -1306,9 +1297,10 @@ public class JFrameAdmin extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btnActualizarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarClienteActionPerformed
-        jTableClientes.setModel(hotel.visualizarClientes(modelTablaClientes));    
-    }//GEN-LAST:event_btnActualizarClienteActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        new Stock(hotel).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
     
     public static boolean validarCedula(String cedula) {
         if (cedula == null || cedula.length() != 10 || !cedula.matches("\\d+")) {
@@ -1380,7 +1372,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizarCliente;
     private javax.swing.JButton btnAgregarArticulo;
     private javax.swing.JButton btnAgregarArticulo1;
     private javax.swing.JButton btnAgregarCliente;
@@ -1397,6 +1388,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jCBCargoEmpleado;
     private javax.swing.JComboBox<String> jCBCategoriaArticulo;
     private javax.swing.JComboBox<String> jCBDiaEntradaReserva;

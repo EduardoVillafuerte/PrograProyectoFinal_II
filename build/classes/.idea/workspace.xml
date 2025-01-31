@@ -4,7 +4,103 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2c847e4-e0b7-48b0-be94-a9ebee89f54f" name="Changes" comment="" />
+    <list default="true" id="d2c847e4-e0b7-48b0-be94-a9ebee89f54f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../build/classes/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/AgregarCliente$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/AgregarCliente$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/AgregarCliente$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/AgregarCliente$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/AgregarCliente.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/AgregarCliente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/AgregarCliente.form" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/AgregarCliente.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio.form" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Inicio.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$16.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$17.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$18.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$19.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$20.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$21.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$21.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$22.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$22.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$23.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$23.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$24.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$24.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$25.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$25.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$26.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$26.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$27.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$27.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$28.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$28.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$29.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$29.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$30.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$30.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin.form" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameAdmin.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$16.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$17.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$18.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente.form" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/JFrameCliente.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Registrarse$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Registrarse$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Registrarse.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Registrarse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capainterfaz/Registrarse.form" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capainterfaz/Registrarse.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capanegocio/EstadoAsignacion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capanegocio/EstadoRegistro.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capanegocio/Hotel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capanegocio/Hotel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capanegocio/Registro.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capanegocio/habitaciones/102.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capanegocio/habitaciones/102.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capanegocio/habitaciones/103.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capanegocio/habitaciones/103.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capanegocio/habitaciones/104.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capanegocio/habitaciones/104.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/classes/capanegocio/habitaciones/reservas/reservas1029384752.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../build/classes/capanegocio/habitaciones/reservas/reservas1029384752.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/AgregarCliente.form" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/AgregarCliente.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/AgregarCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/AgregarCliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/Inicio.form" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/Inicio.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/Inicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/Inicio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/JFrameAdmin.form" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/JFrameAdmin.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/JFrameAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/JFrameAdmin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/JFrameCliente.form" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/JFrameCliente.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/JFrameCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/JFrameCliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/Registrarse.form" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/Registrarse.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capainterfaz/Registrarse.java" beforeDir="false" afterPath="$PROJECT_DIR$/capainterfaz/Registrarse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capanegocio/EstadoAsignacion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/capanegocio/EstadoRegistro.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/capanegocio/Hotel.java" beforeDir="false" afterPath="$PROJECT_DIR$/capanegocio/Hotel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capanegocio/Registro.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/capanegocio/habitaciones/102.txt" beforeDir="false" afterPath="$PROJECT_DIR$/capanegocio/habitaciones/102.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capanegocio/habitaciones/103.txt" beforeDir="false" afterPath="$PROJECT_DIR$/capanegocio/habitaciones/103.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capanegocio/habitaciones/104.txt" beforeDir="false" afterPath="$PROJECT_DIR$/capanegocio/habitaciones/104.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capanegocio/habitaciones/reservas/reservas1029384752.txt" beforeDir="false" afterPath="$PROJECT_DIR$/capanegocio/habitaciones/reservas/reservas1029384752.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,39 +109,40 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "EduardoVillafuerte"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;EduardoVillafuerte&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/EduardoVillafuerte/PrograProyectoFinal_II.git",
-    "accountId": "9718e301-d586-45b1-baf4-60b32d3edcaf"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/EduardoVillafuerte/PrograProyectoFinal_II.git&quot;,
+    &quot;accountId&quot;: &quot;9718e301-d586-45b1-baf4-60b32d3edcaf&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2sF82hZPervV5Da3bAwhR5AG06C" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Inicio.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Eddy/PrograProyectoFinal_II/src",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Inicio.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Eddy/PrograProyectoFinal_II/src&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
